@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p Your user info: #{user}
+  p Your tokens: #{tokens}
+  p 
+    a(href="/query") Query
+  p 
+    a(href="/logout") Logout
+  p
+    a(href="/refresh") Refresh
+  p
+    a(href="/home") Home
+  p
+    a(href="/meeting") Meeting

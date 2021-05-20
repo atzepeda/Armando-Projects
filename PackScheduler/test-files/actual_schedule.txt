@@ -1,0 +1,5 @@
+CSC216,Programming Concepts - Java,601,4,jep,A
+CSC226,Discrete Mathematics for Computer Scientists,001,3,tmbarnes,MWF,935,1025
+Lunch,MWHF,1400,1500,1,
+Short Lunch With Mom,W,1305,1330,1,
+CSC116,Intro to Programming - Java,003,3,tbdimitr,TH,1120,1310

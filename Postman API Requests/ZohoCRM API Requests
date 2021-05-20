@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "062974ea-dc95-4661-a45f-41250ec124b7",
+		"name": "Zoho Calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get_Refresh_Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1000.960958a989e21f076f2b5fb03ab5cce9.93af56327baa4f654521944c75d3600d"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://accounts.zoho.com/oauth/v2/token",
+					"protocol": "https",
+					"host": [
+						"accounts",
+						"zoho",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"v2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Access_Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "1000.960958a989e21f076f2b5fb03ab5cce9.93af56327baa4f654521944c75d3600d"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://accounts.zoho.com/oauth/v2/token?refresh_token=1000.267e767ed83a68306edb63563091bfe6.51325a4b90b3b176891499b716f8b64f&client_id=1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW&client_secret=0cc5764671d1b9437e295cf0d3a24138e35f7c1012&grant_type=refresh_token",
+					"protocol": "https",
+					"host": [
+						"accounts",
+						"zoho",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"v2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "refresh_token",
+							"value": "1000.267e767ed83a68306edb63563091bfe6.51325a4b90b3b176891499b716f8b64f"
+						},
+						{
+							"key": "client_id",
+							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW"
+						},
+						{
+							"key": "client_secret",
+							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Modules",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Zoho-oauthtoken 1000.ec9f39a37e3bf688e33d67d5a463fa90.adb1b7cb92b8c2d94e4d831506c594b6",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://www.zohoapis.com/crm/v2/settings/modules",
+					"protocol": "https",
+					"host": [
+						"www",
+						"zohoapis",
+						"com"
+					],
+					"path": [
+						"crm",
+						"v2",
+						"settings",
+						"modules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Modules Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Zoho-oauthtoken 1000.ec9f39a37e3bf688e33d67d5a463fa90.adb1b7cb92b8c2d94e4d831506c594b6",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://www.zohoapis.com/crm/v2/settings/modules",
+					"protocol": "https",
+					"host": [
+						"www",
+						"zohoapis",
+						"com"
+					],
+					"path": [
+						"crm",
+						"v2",
+						"settings",
+						"modules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Module_By_Field",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Zoho-oauthtoken 1000.ec9f39a37e3bf688e33d67d5a463fa90.adb1b7cb92b8c2d94e4d831506c594b6",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://www.zohoapis.com/crm/v2/settings/modules",
+					"protocol": "https",
+					"host": [
+						"www",
+						"zohoapis",
+						"com"
+					],
+					"path": [
+						"crm",
+						"v2",
+						"settings",
+						"modules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new_request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://accounts.zoho.com/oauth/v2/token?grant_type=authorization_code&client_id=1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW&client_secret=0cc5764671d1b9437e295cf0d3a24138e35f7c1012&code=1000.2318f2ab3b4850d37134912e153f33f4.f3816e706c3a3a79fe23a5496fcee39f",
+					"protocol": "https",
+					"host": [
+						"accounts",
+						"zoho",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"v2",
+						"token"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code"
+						},
+						{
+							"key": "client_id",
+							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW"
+						},
+						{
+							"key": "client_secret",
+							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012"
+						},
+						{
+							"key": "code",
+							"value": "1000.2318f2ab3b4850d37134912e153f33f4.f3816e706c3a3a79fe23a5496fcee39f"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Token_W/_Scope",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Contact",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Contact",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}

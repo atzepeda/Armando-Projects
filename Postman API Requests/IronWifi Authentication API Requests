@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "995921c9-646a-42ef-b230-54b853c02d09",
+		"name": "IronWiFi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Mac Address",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer 3f2200c84688f85b42b6ecff552d85e6b06740e9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Users/GMan/Desktop/payload.json"
+					}
+				},
+				"url": {
+					"raw": "https://us-east1.ironwifi.com/api/16d9f6dc5e0cf15e/users/841fc01389b7de560845e1c73747f318",
+					"protocol": "https",
+					"host": [
+						"us-east1",
+						"ironwifi",
+						"com"
+					],
+					"path": [
+						"api",
+						"16d9f6dc5e0cf15e",
+						"users",
+						"841fc01389b7de560845e1c73747f318"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get List of Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Set Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer 7e3f150f39224280c4a6aa02e7ce0b87902e0e77",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json;charset=utf-8",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "value",
+							"value": "itWorked",
+							"type": "text"
+						},
+						{
+							"key": "userid",
+							"value": "841fc01389b7de560845e1c73747f318",
+							"type": "text"
+						},
+						{
+							"key": "attribute",
+							"value": "Cleartext-Password",
+							"type": "text"
+						},
+						{
+							"key": "operator",
+							"value": "=",
+							"type": "text"
+						},
+						{
+							"key": "table",
+							"value": "radcheck",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://us-east1.ironwifi.com/api/16d9f6dc5e0cf15e/attributes",
+					"protocol": "https",
+					"host": [
+						"us-east1",
+						"ironwifi",
+						"com"
+					],
+					"path": [
+						"api",
+						"16d9f6dc5e0cf15e",
+						"attributes"
+					],
+					"query": [
+						{
+							"key": "value",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "userid",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "attribute",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "operator",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "table",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set First Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}

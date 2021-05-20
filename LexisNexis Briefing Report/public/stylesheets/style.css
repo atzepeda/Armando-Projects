@@ -1,0 +1,64 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+name{
+    font-weight: bold;
+    font-size: 40px;
+     vertical-align: top;
+     margin-left: 10%;
+}
+
+email{
+    font-size: 20px;
+    vertical-align: bottom;
+    margin-left: 10%;
+}
+
+number{
+  font-size: 20px;
+  vertical-align: mid;
+  margin-left: 10%;
+}
+
+mb {
+  font-weight: bold;
+  font-size: 50px;
+  padding: 15px;
+  float: right;
+  vertical-align: mid;
+}
+
+.divintro{
+    max-width: 1500px;
+    width: 95%;
+    min-height: 100px;
+    padding: 15px;
+    background-color: #c4c4c4;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.divTitle{
+    max-width: 1500px;
+    width: 95%;
+    min-height: 100px;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+titleBit {
+    vertical-align: top;
+    font-size: 50px;
+    font-weight: bold;
+    float: center;
+}

@@ -1,0 +1,25 @@
+doctype html
+html
+head
+
+title=title
+link(rel='stylesheet', href='/stylesheets/style.css')
+- var user = { description: 'foo bar baz' }
+- var authorised = false
+
+#activity
+if activity.id
+    titleBit #{activity.summary}
+    br
+    titleBit.summary= activity.summary
+
+#people
+each person in people
+    .divintro
+        mb Attendee Briefing
+        name #{person.fullName}
+        br
+        number #{person.phoneNumbers[0].number}
+        br
+        email #{person.emailAddresses[0].address}
+p #{peopleText}

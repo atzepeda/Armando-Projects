@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "115b2b81-8994-4636-b897-267ad195831b",
+		"name": "SignNow Calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Token Request",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Yzk0YzY4MWRiZDRiOWM3N2YyMjBmM2E4NjIyMTAxZTk6ZjkzNDUwZjFkZWJhNTg3ZjdkYzQzOWQ4OTcxNGQzY2U=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "armando@officeours.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "sasuke23",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "*",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://api-eval.signnow.com/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"api-eval",
+						"signnow",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer f16862cfa3b18e712fa92edfb107677c175a71f176848023cc19fe504a98857d",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api-eval.signnow.com/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"api-eval",
+						"signnow",
+						"com"
+					],
+					"path": [
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Signature Link",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer f16862cfa3b18e712fa92edfb107677c175a71f176848023cc19fe504a98857d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api-eval.signnow.com/link",
+					"protocol": "https",
+					"host": [
+						"api-eval",
+						"signnow",
+						"com"
+					],
+					"path": [
+						"link"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

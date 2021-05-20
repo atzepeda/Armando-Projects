@@ -1,0 +1,3755 @@
+type AcceptTicketsForPersonalContactsResult {
+  contactsEffected: Int
+}
+
+type Activity {
+  activityClass: ActivityClass
+  activityDate: Date
+  allLinkedContactIds: [ID] @deprecated(reason: "Should be using field 'linkedContactsWithFilter' instead")
+  creatorId: ID
+  creatorName: String
+  deleteAllowed: Boolean
+  editAllowed: Boolean
+  id: ID
+  lastEditDisplayName: String
+  lastEditedDate: Date
+  lastEditUserContactId: ID
+  linkedActivityContacts(contactType: ActivityContactType = null): [ActivityContact]
+  linkedCompanies: [ActivityCompany] @deprecated(reason: "Should be using field 'linkedContactsWithFilter' instead")
+  linkedContacts: [ActivityPerson] @deprecated(reason: "Should be using field 'linkedContactsWithFilter' instead")
+  linkedInitiative: Initiative
+  linkedOpportunities: [Opportunity]
+  originatorId: ID
+  originatorName: String
+  originatorUserId: ID
+  regarding: String
+  restrictEdit: Boolean
+  subject: String
+  summary: String
+  type: String
+  typeGroup: String
+  typeId: ID
+  viewActivityUrl: String
+  visibleTo: Visibility
+}
+
+enum ActivityClass {
+  Activity
+  Appointment
+}
+
+type ActivityCompany implements ActivityContact {
+  id: ID
+  name: String
+  visibility: String
+}
+
+interface ActivityContact {
+  id: ID
+  visibility: String
+}
+
+enum ActivityContactType {
+  Person
+  Company
+  Unknown
+}
+
+type ActivityCount {
+  activityType: String
+  count: Int
+  month: Int
+  year: Int
+}
+
+type ActivityCountResults {
+  models: [ActivityCount]
+  totalModels: Int!
+}
+
+type ActivityCreated {
+  id: ID
+  subject: String
+}
+
+type ActivityPerson implements ActivityContact {
+  company: ActivityCompany
+  fullName: String
+  id: ID
+  primaryEmail: String
+  visibility: String
+}
+
+type ActivityResults {
+  limit: Int
+  models: [Activity]
+  skip: Int
+  totalModels: Int!
+}
+
+type ActivityType {
+  expirationDays: Int
+  groupId: ID
+  groupName: String
+  id: ID
+  isActive: Boolean
+  isDefault: Boolean
+  name: String
+}
+
+type ActivityTypeResults {
+  limit: Int
+  models: [ActivityType]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type ActivityUnknown implements ActivityContact {
+  displayName: String
+  id: ID
+  visibility: String
+}
+
+enum ActivityVisibility {
+  Group
+  Everyone
+  OnlyMe
+}
+
+type AddAccessRights {
+  accessId: ID
+  accessorId: ID
+  accessorRole: ListAccessRightAccessorRole
+  accessorType: ListAccessRightAccessorType
+  listId: ID
+}
+
+input AddAccessRightsInput {
+  listId: ID!
+  accessorRole: ListAccessRightAccessorRole!
+  accessorId: ID!
+  accessorType: ListAccessRightAccessorType!
+  addToFavorites: Boolean = null
+}
+
+input AddActivityInput {
+  typeId: ID!
+  activityDate: String!
+  subject: String!
+  summary: String = null
+  linkedEntityIds: [ID] = null
+  linkedInitiativeId: ID = null
+  visibleTo: ActivityVisibility = null
+  restrictEdit: Boolean = null
+  visibleToGroupId: ID = null
+}
+
+input AddAppointmentInput {
+  typeId: ID!
+  appointmentDate: String!
+  outlookMeetingId: String!
+  endDate: String!
+  subject: String!
+  summary: String = null
+  linkedEntityIds: [ID] = null
+  visibleTo: ActivityVisibility = null
+  restrictEdit: Boolean = null
+  expireDays: Int = null
+  visibleToGroupId: ID = null
+  organizerDisplayName: String = null
+  organizerEmail: String = null
+  location: String = null
+}
+
+input AddCompanyInput {
+  companyName: String = null
+  alias: String = null
+  primaryPhone: String = null
+  secondaryPhone: String = null
+  faxNumber: String = null
+  mobilePhone: String = null
+  pagerNumber: String = null
+  emailAddress: String = null
+  website: String = null
+  folderContactTypes: [ID] = null
+  businessAddress: AddressInput = null
+  confidentialFields: CompanyConfidentialFieldsInput = null
+  addToFirmContacts: Boolean = null
+  addToMyContacts: Boolean = null
+  keepConfidential: Boolean = null
+  canAutoUpdate: Boolean = null
+  mailingAddress: MailingAddressType = null
+}
+
+type AddContactsToListResults {
+  pendingTickets: Boolean
+  resultText: String
+  skippedContactIds: [String]
+  skippedCount: Int
+  successCount: Int
+  totalCount: Int
+}
+
+enum AddContactToMyContactsNotificationType {
+  Default
+  AlreadyExists
+  InsufficientPermissions
+  InvalidContactId
+}
+
+type AddContactToMyContactsResults {
+  contacts: [Contact]
+  contactsEffected: Int
+  myAndSharedContacts: Int
+  notificationType: AddContactToMyContactsNotificationType
+}
+
+type AddFavoriteListResult {
+  list: List
+  success: Boolean
+}
+
+input AddInitiativeInput {
+  objectiveId: ID!
+  name: String!
+  description: String = null
+  startDate: Date!
+  endDate: Date!
+  progress: Int = null
+  companyIds: [ID]!
+  userIds: [ID] = null
+  locations: [BusinessPlanningLocationInput!] = null
+  types: BusinessPlanningTypesInput!
+}
+
+type AddInitiativeResults {
+  item: Initiative
+  validationErrors: [ValidationErrors]
+}
+
+input AdditionalField {
+  fieldId: ID!
+  valueId: ID = null
+  lastEditDate: DateTime = null
+  value: String!
+  qualification: String = null
+  fieldDataType: String!
+}
+
+enum AdditionalFieldDataType {
+  list
+  integer
+  text
+  boolean
+  date
+  user
+  decimal
+  unknown
+}
+
+type AdditionalFieldDefinition {
+  allowsMultipleValues: Boolean
+  allowsSecondaryField: Boolean
+  booleanDataTypeFalseValue: String
+  booleanDataTypeTrueValue: String
+  dataType: String
+  dataTypeDisplayName: String
+  decimalDataTypePrecision: Int
+  description: String
+  id: ID
+  listDataType: AdditionalFieldListDataType
+  name: String
+  numericDataTypeMaxValue: Float
+  numericDataTypeMinValue: Float
+  secondaryFieldName: String
+  stringDataTypeMaxLength: Int
+  stringDataTypeMultiLine: Boolean
+  userDataTypeUserActiveType: String
+  userDataTypeUserType: String
+}
+
+type AdditionalFieldDefinitionResults {
+  models: [AdditionalFieldDefinition]
+  totalModels: Int!
+}
+
+type AdditionalFieldListDataType {
+  options: [AdditionalFieldListDataTypeOption]
+}
+
+type AdditionalFieldListDataTypeOption {
+  id: ID
+  name: String
+}
+
+type AdditionalFieldValue {
+  contactId: ID
+  dataType: AdditionalFieldDataType
+  displayValue: String @deprecated(reason: "Use field valueItems instead")
+  fieldDisplayName: String
+  fieldId: ID
+  format: String
+  id: ID
+  listId: ID
+  separator: String
+  valueItems: [AdditionalFieldValueItem]
+}
+
+type AdditionalFieldValueItem {
+  lastEditDate: DateTime
+  qualification: String
+  value: String
+  valueId: ID
+}
+
+type AdditionalFieldValueResults {
+  models: [AdditionalFieldValue]
+  totalModels: Int!
+}
+
+input AddListInput {
+  name: String!
+  description: String = null
+  folderTypeId: ID!
+  showFlags: Boolean = null
+  newContactFlag: ContactFlag = none
+  folderFlags: [FolderFlagInput] = null
+}
+
+type AddListResult {
+  errorText: String
+  item: List
+  success: Boolean
+}
+
+input AddObjectiveInput {
+  name: String!
+  description: String = null
+  startDate: Date!
+  endDate: Date!
+  progress: Int = null
+  locations: [BusinessPlanningLocationInput!] = null
+  types: BusinessPlanningTypesInput!
+}
+
+type AddObjectiveResults {
+  item: Objective
+  validationErrors: [ValidationErrors]
+}
+
+input AddOpportunityActivityInput {
+  opportunityId: ID!
+  activityId: ID!
+}
+
+type AddOpportunityActivityResult {
+  activityId: ID
+  opportunityId: ID
+}
+
+input AddOpportunityInput {
+  title: String!
+  description: String = null
+  targetClientId: ID!
+  opportunityTypeId: ID!
+  projectedOutcomeId: ID = null
+  actualOutcomeId: ID = null
+  actualOutcomeReasonId: ID = null
+  opportunityOutcomeId: ID = null
+  opportunityOutcomeReasonId: ID = null
+  originationSourceContactId: ID = null
+  originationSourceId: ID = null
+  estimatedStartDate: DateTime = null
+  estimatedEndDate: DateTime = null
+  dateOpened: DateTime!
+  dateClosed: DateTime = null
+  projectedRevenue: Int = null
+  actualRevenue: Int = null
+  practiceGroupId: ID = null
+  industryTypeId: ID = null
+  associatedPrincipals: [OpportunityTeamMemberInput!]!
+  associatedContacts: [OpportunityTargetCompanyContactInput!] = null
+  primaryContactId: ID = null
+}
+
+input AddPersonalContactCategoryInput {
+  categoryName: String!
+}
+
+type AddPersonalContactCategoryResult {
+  id: ID
+  personalContactCategory: PersonalContactCategory
+  success: Boolean
+}
+
+input AddPersonalLocationInput {
+  contactId: ID!
+  address: UpdatePersonalAddressInput = null
+  contactType: ContactTypes = null
+  addressBlockType: UsageTypes!
+}
+
+input AddPersonInput {
+  firstName: String = null
+  lastName: String = null
+  title: String = null
+  suffix: String = null
+  middleName: String = null
+  goesBy: String = null
+  primaryPhone: String = null
+  companyPhone: String = null
+  faxNumber: String = null
+  mobilePhone: String = null
+  otherPhone: String = null
+  pagerNumber: String = null
+  emailAddress: String = null
+  website: String = null
+  assistantName: String = null
+  assistantPhone: String = null
+  companyName: String = null
+  companyId: ID = null
+  homePhone: String = null
+  homeFax: String = null
+  homeEmailAddress: String = null
+  otherEmailAddress: String = null
+  jobTitle: String = null
+  addToFirmContacts: Boolean = null
+  addToMyContacts: Boolean = null
+  keepConfidential: Boolean = null
+  folderContactTypes: [ID] = null
+  businessAddress: AddressInput = null
+  otherAddress: AddressInput = null
+  homeAddress: AddressInput = null
+  saveAddressToCompany: Boolean = null
+  confidentialFields: PersonConfidentialFieldsInput = null
+  canAutoUpdate: Boolean = null
+  contactAdditionalFields: [AdditionalField] = null
+  mailingAddress: MailingAddressType = null
+}
+
+type AddPersonResults {
+  dcmTickets: [Int]
+  item: Person
+  status: ResultCode
+  validationErrors: [ValidationErrors]
+}
+
+input AddPhoneInput {
+  number: String = null
+  label: String = null
+  type: PhoneNumberTypes = null
+  usage: UsageTypes = null
+}
+
+input AddRelationshipInput {
+  relationshipType: String!
+  contactId: ID!
+  strengthScale: String = null
+  description: String = null
+  isStrong: Boolean = null
+  keepMyRelationshipPrivate: Boolean = null
+}
+
+type AddRelationshipResults {
+  contactId: ID
+  success: Boolean
+}
+
+input AddReminderInput {
+  reminderUserId: ID!
+  contactId: ID!
+  frequency: Int = null
+  frequencyUnits: FrequencyUnitsType = null
+  nextDeliveryDate: Date = null
+  description: String = null
+}
+
+type Address {
+  additional: String
+  administrativeDivision: String
+  city: String
+  country: String
+  id: ID
+  isGlobal: Boolean
+  isMailingAddress: Boolean
+  label: String
+  owningContactId: ID
+  postalCode: String
+  street: String
+  type: AddressTypes
+  usage: UsageTypes
+}
+
+input AddressInput {
+  addressId: ID = null
+  owningContactId: ID = null
+  isMailingAddress: Boolean = null
+  label: String = null
+  street: String = null
+  city: String = null
+  administrativeDivision: String = null
+  country: String = null
+  postalCode: String = null
+  additionalField: String = null
+  usage: UsageTypes = null
+}
+
+enum AddressTypes {
+  Street
+  POBox
+  LockBox
+  Other
+}
+
+type AdministrativeDivision {
+  abbreviation: String
+  id: ID
+  name: String
+}
+
+type AdministrativeDivisions {
+  postalCodeLabel: String
+  stateLabel: String
+  states: [State]
+  useStates: Boolean
+}
+
+type Alert {
+  activityDate: Date
+  activityId: ID
+  contacts: [AlertContact]
+  hasDocuments: Boolean
+  id: ID
+  monitoredContacts: Int
+  originatorEmail: String
+  originatorId: ID
+  originatorName: String
+  regarding: String
+  subject: String
+  type: String
+  typeId: ID
+}
+
+type AlertContact {
+  companyName: String
+  contactEmail: String
+  contactType: String
+  displayName: String
+  id: ID
+}
+
+type AlertPanelSettings {
+  daysAhead: Int
+  daysFrom: Int
+}
+
+input AlertPanelSettingsInput {
+  daysFrom: Int = null
+  daysAhead: Int = null
+}
+
+type AlertResults {
+  limit: Int
+  models: [Alert]
+  skip: Int
+  totalModels: Int!
+}
+
+type Appointment {
+  exchangeAppointmentId: String
+  id: ID
+  linkedActivity: Activity
+}
+
+enum AppSettingIdentifier {
+  AddPersonsAssociatedCompanyToActivity
+}
+
+type BaseContact implements ConnectionContact {
+  changeDate: Date
+  commonName: String
+  companyAlias: String
+  companyContactId: ID
+  companyName: String
+  contactId: ID
+  contactState: Int
+  contactType: ContactTypes
+  createDate: Date
+  deleteAllowed: Boolean
+  department: String
+  description: String
+  displayName: String
+  editAllowed: Boolean
+  email: String
+  externalBin: Int
+  externalBinCount: Int
+  externalBinDescription: String
+  externalDisplayInUI: Boolean
+  externalStrengthScale: Int
+  firstName: String
+  formerAllowed: Boolean
+  formerInd: Boolean
+  id: ID
+  isAnonymous: Boolean
+  isStrong: Boolean
+  jobTitle: String
+  lastName: String
+  middleName: String
+  office: String
+  originationTyp: Int
+  primaryPhone: String
+  published: Boolean
+  rangeItemDescription: String
+  rangeItemDisplayOrder: Int
+  rangeItemId: Int
+  relationshipCategory: String
+  relationshipId: ID
+  relationshipName: String
+  relationshipSentenceName: String
+  relationshipStatus: RelationshipStatus
+  relationshipTypeId: Int
+  showsRangeItem: Boolean
+  strengthScale: Int
+  visibility: ContactVisibility
+  website: String
+}
+
+type BusinessPlanningActivity {
+  activity: Activity
+  activityDate: DateTime
+  id: ID
+  initiativeId: ID
+  initiativeName: String
+  originatorFirstName: String
+  originatorId: ID
+  originatorLastName: String
+  subject: String
+  summary: String
+  type: String
+}
+
+input BusinessPlanningActivityFilter {
+  activityTypeName: String = null
+  originatorLastName: String = null
+  summary: String = null
+  subject: String = null
+  date: DateFilterInput = null
+}
+
+input BusinessPlanningActivitySort {
+  field: BusinessPlanningSortField!
+  direction: SortDirection = Ascending
+}
+
+type BusinessPlanningCompany {
+  businessCity: String
+  businessState: String
+  company: Company
+  contactTypes: [ContactFolderContactType]
+  id: ID
+  initiativeId: ID
+  initiativeName: String
+  name: String
+}
+
+input BusinessPlanningCompanyFilter {
+  name: String = null
+  initiativeName: String = null
+  businessCity: String = null
+  businessState: String = null
+}
+
+type BusinessPlanningCompanyResults {
+  limit: Int
+  models: [BusinessPlanningCompany]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+input BusinessPlanningCompanySort {
+  field: BusinessPlanningCompanySortField!
+  direction: SortDirection = Ascending
+}
+
+enum BusinessPlanningCompanySortField {
+  initiativeName
+  initiativeChangeDate
+  name
+  businessCity
+  businessState
+}
+
+type BusinessPlanningConnection {
+  linkedUser: BusinessPlanningPerson
+  relationshipId: ID
+  relationshipScore: Score
+  relationshipTypeId: Int
+  targetContact: BusinessPlanningPerson
+}
+
+type BusinessPlanningConnectionResults {
+  limit: Int
+  models: [BusinessPlanningConnection]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type BusinessPlanningLocation {
+  administrativeDivision: AdministrativeDivision
+  country: Country
+}
+
+input BusinessPlanningLocationInput {
+  countryId: ID!
+  administrativeDivisionId: ID = null
+}
+
+type BusinessPlanningPerson {
+  companyName: String
+  firstName: String
+  hasRelationship: Boolean
+  id: ID
+  jobTitle: String
+  lastName: String
+  person: Person
+}
+
+enum BusinessPlanningSortField {
+  activityDate
+  activityTypeName
+  originatorLastName
+  subject
+  summary
+}
+
+type BusinessPlanningTag {
+  displayName: String
+  type: BusinessPlanningTagType
+}
+
+enum BusinessPlanningTagType {
+  industry
+  practiceArea
+  otherType
+}
+
+type BusinessPlanningTypes {
+  industries: [Industry]
+  keyClient: Boolean
+  otherTypes: [String]
+  practiceGroups: [PracticeGroup]
+}
+
+input BusinessPlanningTypesInput {
+  industries: [ID!] = null
+  practiceGroups: [ID!] = null
+  keyClient: Boolean = null
+  otherTypes: [String] = null
+}
+
+type Chunk {
+  tagType: ChunkTagType
+  text: String
+}
+
+enum ChunkTagType {
+  UNK
+  EMAIL
+  URL
+  PHONE
+  Qualifier
+  Line
+  City
+  State
+  PostalCode
+  Country
+  Title
+  FirstName
+  MiddleName
+  LastName
+  Suffix
+}
+
+type ColumnSettings {
+  frozen: Boolean
+  key: String
+  locked: Boolean
+  position: Int
+  visible: Boolean
+}
+
+input ColumnSettingsInput {
+  key: String!
+  position: Int!
+  visible: Boolean!
+  locked: Boolean!
+  frozen: Boolean!
+}
+
+type Company implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  alias: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  confidentialFields: CompanyConfidentialFields
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  name: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  opportunities(skip: Int = 0, limit: Int = 100, sort: [OpportunitySortInput!] = null, filter: [OpportunityFilterInput!] = null): OpportunityResults
+  pendingTickets: Boolean
+  personal: PersonalCompany
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  shared: SharedCompany
+  sourceFolder: SourceFolderTypes
+  tags: [String]
+  type: ContactTypes
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type CompanyConfidentialFields {
+  businessAddress: Boolean
+  email: Boolean
+  fax: Boolean
+  mobilePhone: Boolean
+  pager: Boolean
+  primaryPhone: Boolean
+  secondaryPhone: Boolean
+  website: Boolean
+}
+
+input CompanyConfidentialFieldsInput {
+  primaryPhone: Boolean = null
+  secondaryPhone: Boolean = null
+  fax: Boolean = null
+  mobilePhone: Boolean = null
+  pager: Boolean = null
+  email: Boolean = null
+  website: Boolean = null
+  businessAddress: Boolean = null
+}
+
+input CompanyEmployeeFilterInput {
+  name: String = null
+  jobTitle: String = null
+  companyName: String = null
+  office: String = null
+  email: String = null
+  hasRelationship: Boolean = null
+}
+
+enum CompanyEmployeeRelationshipSortField {
+  targetCompanyName
+  targetFirstName
+  targetLastName
+  targetJobTitle
+  score
+}
+
+input CompanyEmployeeRelationshipSortInput {
+  field: CompanyEmployeeRelationshipSortField!
+  direction: SortDirection = Ascending
+}
+
+type CompanyEmployeeResults {
+  limit: Int
+  models: [BusinessPlanningPerson]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum CompanyEmployeeSortField {
+  companyName
+  name
+  jobTitle
+  office
+  email
+}
+
+input CompanyEmployeeSortInput {
+  field: CompanyEmployeeSortField!
+  direction: SortDirection = Ascending
+}
+
+type CompanyInfo {
+  displayName: String
+  id: ID
+}
+
+type Connection {
+  baseContacts: [BaseContact]
+  targetContact: TargetContact
+}
+
+interface ConnectionContact {
+  commonName: String
+  companyAlias: String
+  companyContactId: ID
+  companyName: String
+  contactId: ID
+  contactState: Int
+  contactType: ContactTypes
+  department: String
+  displayName: String
+  email: String
+  firstName: String
+  id: ID
+  jobTitle: String
+  lastName: String
+  middleName: String
+  office: String
+  primaryPhone: String
+  website: String
+}
+
+type ConnectionResults {
+  limit: Int
+  models: [Connection]
+  skip: Int
+  totalModels: Int!
+}
+
+interface Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  sourceFolder: SourceFolderTypes
+  tags: [String]
+  type: ContactTypes
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type ContactAdditionalFieldValue {
+  customFieldId: Int @deprecated(reason: "Should be using field 'id' instead")
+  id: ID
+  values: [ContactCustomFieldValue]
+}
+
+type ContactAdditionalFieldValueResults {
+  models: [ContactAdditionalFieldValue]
+  totalModels: Int!
+}
+
+enum ContactClassTypes {
+  Any
+  FirmContactOnly
+  MyContactOnly
+}
+
+type ContactCustomFieldValue {
+  editAllowed: Boolean
+  lastEditDate: DateTime
+  qualificationDescription: String
+  value: String
+  valueId: ID
+}
+
+enum ContactFilterField {
+  companyName
+  jobTitle
+  phoneNumber
+  firstName
+  lastName
+  hasAssociatedUser
+  ids
+  industryIds
+  country
+  city
+  state
+  postalCode
+  email
+  contactTypeIds
+  contactType
+  lastNameSoundsLike
+  companySoundsLike
+  term
+  mailingAddressesOnly
+  includeListSpecific
+  visibility
+}
+
+input ContactFilterInput {
+  field: ContactFilterField = null
+  value: String = null
+  values: [String] = null
+}
+
+enum ContactFlag {
+  none
+  red
+  orange
+  yellow
+  green
+  aqua
+  blue
+  darkBlue
+  purple
+  black
+  grey
+}
+
+type ContactFolderContactType {
+  id: ID
+  name: String
+}
+
+type ContactList {
+  allowedLinkInto: Boolean
+  allowedRemoveFrom: Boolean
+  creatorId: ID
+  creatorName: String
+  dcmApplies: Boolean
+  description: String
+  id: ID
+  listClass: ListClass
+  name: String
+  owner: Person
+  ownerName: String
+  sponsors: [Sponsor]
+  type: String
+  userIsSponsor: Boolean
+}
+
+type ContactListResults {
+  limit: Int
+  models: [ContactList]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type ContactResults {
+  limit: Int
+  models: [Contact]
+  resultsFrom: SearchResultsFrom
+  searchTerms: SearchTerms
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum ContactStateTypes {
+  myContactMoreInfoNeeded
+  myContactPrivate
+  myContactOnly
+  myContactAndFirmContactPendingConnection
+  myContactAndFirmContact
+  myContactAndFirmContactPossibleDuplicate
+  myContactAndFirmContactAndPrivateContact
+  myContactAndFirmContactMissingFirmChanges
+  firmContactOnly
+}
+
+enum ContactTypes {
+  Any
+  None
+  Person
+  Company
+}
+
+enum ContactView {
+  Activities
+  Lists
+  Relationships
+}
+
+enum ContactVisibility {
+  unknown
+  private
+  personal
+  shared
+  public
+  listSpecific
+}
+
+type Country {
+  administrativeDivisions: AdministrativeDivisions
+  id: ID
+  isoCode: String
+  name: String
+  statusIndicator: String
+}
+
+type CountryResults {
+  models: [Country]
+  totalModels: Int!
+}
+
+type DashboardSettings {
+  key: String
+  panelSettings: [PanelSettings]
+}
+
+"""
+The `Date` scalar type represents a year, month and day in accordance with the
+[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+"""
+scalar Date
+
+input DateFilterInput {
+  start: Date = null
+  end: Date = null
+}
+
+"""
+The `DateTime` scalar type represents a date and time. `DateTime` expects
+timestamps to be formatted in accordance with the
+[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+"""
+scalar DateTime
+
+"""
+The `DateTimeOffset` scalar type represents a date, time and offset from UTC.
+`DateTimeOffset` expects timestamps to be formatted in accordance with the
+[ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) standard.
+"""
+scalar DateTimeOffset
+
+enum DcmTicketType {
+  Undefined
+  Add
+  Change
+  Delete
+  Reformat
+  Suspect
+  None
+}
+
+scalar Decimal
+
+input DupSearchInput {
+  firstName: String = null
+  lastName: String = null
+  company: String = null
+  type: ContactTypes!
+}
+
+input EditActivityInput {
+  activityId: ID!
+  typeId: ID!
+  activityDate: String!
+  subject: String!
+  summary: String = null
+  linkedEntityIds: [ID] = null
+  linkedInitiativeId: ID = null
+  visibleTo: ActivityVisibility = null
+  restrictEdit: Boolean = null
+}
+
+input EditPersonEmploymentInformationInput {
+  id: ID!
+  companyId: ID = null
+  companyName: String = null
+  employmentInfoChange: EmploymentInfoChange!
+  jobTitle: String = null
+  department: String = null
+  businessAddress: EmploymentChangeAddressInput = null
+  businessPhoneNumber: EmploymentChangePhoneInput = null
+  business2PhoneNumber: EmploymentChangePhoneInput = null
+  mobilePhoneNumber: EmploymentChangePhoneInput = null
+  businessFaxNumber: EmploymentChangePhoneInput = null
+  pagerNumber: EmploymentChangePhoneInput = null
+  businessElectronicAddress: EmploymentChangeElectronicAddressInput = null
+  businessWebsite: EmploymentChangeElectronicAddressInput = null
+  assistantName: String = null
+  assistantPhoneNumber: EmploymentChangePhoneInput = null
+  formerEmploymentDetails: String = null
+}
+
+input EditRelationshipInput {
+  relationshipId: ID!
+  relationshipStatus: RelationshipStatus = null
+  description: String = null
+  isStrong: Boolean = null
+  keepMyRelationshipPrivate: Boolean = null
+}
+
+type EditRelationshipResult {
+  relationshipId: ID!
+  success: Boolean
+}
+
+input EditReminderPreferencesInput {
+  userId: ID = null
+  mailPreference: Int = null
+  deliveryDay: Int = null
+  deliveryFrequency: Int = null
+  defaultReminderFrequency: Int = null
+  defaultReminderFrequencyUnits: Int = null
+}
+
+input EditWatchListPreferencesInput {
+  watchedFolders: [ID] = null
+  watchedTypes: [ID] = null
+  watchMyContacts: Boolean = null
+  watchContactsIKnow: Boolean = null
+  defaultDaysAhead: Int = null
+  defaultDaysBack: Int = null
+}
+
+input EditWorkingListDetailsInput {
+  listId: ID!
+  name: String!
+  description: String = null
+  folderTypeId: ID!
+  showFlags: Boolean = null
+  newContactFlag: ContactFlag = null
+  folderFlags: [FolderFlagInput] = null
+}
+
+type EditWorkingListDetailsResult {
+  errorText: String
+  item: List
+  success: Boolean
+}
+
+input ElectronicAddressInput {
+  id: ID = null
+  owningContactId: ID = null
+  electronicAddress: String = null
+  usage: UsageTypes = null
+  electronicAddressType: EmailAddressTypes = null
+}
+
+type EmailAddress {
+  address: String
+  id: ID
+  isGlobal: Boolean
+  label: String
+  owningContactId: ID
+  type: EmailAddressTypes
+  usage: UsageTypes
+}
+
+enum EmailAddressTypes {
+  Email
+  FTPSite
+  WebSite
+  Other
+}
+
+input EmailInfo {
+  senderEmail: String = null
+  senderDisplayName: String = null
+  sentDate: Date = null
+  receiverEmail: String = null
+  body: String = null
+}
+
+type EmailInfoResults {
+  companies: [CompanyInfo]
+  confidence: Float
+  entities: [SignatureEntity]
+  requestId: ID
+  signatureBlock: String
+}
+
+input EmailInput {
+  emailAddress: String = null
+  fullName: String = null
+}
+
+input EmploymentChangeAddressInput {
+  addressId: ID = null
+  label: String = null
+  street: String = null
+  city: String = null
+  administrativeDivision: String = null
+  country: String = null
+  postalCode: String = null
+  additionalField: String = null
+  isGlobalMailingAddress: Boolean = null
+  owningContactId: ID = null
+}
+
+input EmploymentChangeElectronicAddressInput {
+  owningContactId: ID = null
+  electronicAddress: String = null
+}
+
+input EmploymentChangePhoneInput {
+  owningContactId: ID = null
+  number: String = null
+}
+
+enum EmploymentInfoChange {
+  EmployerNotKnown
+  NewCompany
+  ExistingCompany
+}
+
+enum FeatureFlag {
+  None
+  QueryUserContacts
+  QueryUserContactsWithCategories
+  QueryFirmContacts
+  ListFirmContactsWithFlags
+  FetchDashboardAggregates
+  QueryContactNews
+  QueryListAdditionalFields
+  ManageReminders
+  ManageProfiles
+  EditListAdditionalFields
+  AddMeetingActivityDirectlyOutlook
+  UpdateContactFromSignatureOutlook
+  QueryUserContactCounts
+  ManageReminderPreferences
+  ManageAlertPreferences
+  ManageReportingPreference
+  ManageAppointmentSyncSettings
+  DisplayHelpLink
+  DisplayReportsMenu
+  EditMultiValuedAdditionalFields
+  ManageNotes
+  CustomizableContactOverview
+  EnableDataDownload
+  ManageOpportunities
+  UseExpandedContactDetailsMenu
+  SearchResultsRemoveFromMyContacts
+  EditNomenclatureSettings
+  UpdateContactAdditionalInfoFromOutlook
+  DisplayResourceCenterHelpLink
+  DisplayAllActivityTypesContactOverviewWidget
+  CreateObjective
+  EditObjectives
+  ViewObjectives
+  ViewObjectiveOverview
+  CreateInitiative
+  EditInitiatives
+  ViewInitiatives
+  ViewInitiativeOverview
+  ViewInitiativesInOutlook
+  EnablePersonalContactSlowSync
+  ManagePersonalContactReview
+  ManageNewContactDefaultSettings
+  ConfigureAddActivityButton
+  AddNewsToEmailInOutlook
+  ManageCategories
+  ViewManageContactCategories
+  ManageCheckboxesUseCustomInGrids
+  ManageContactSingleView
+  LinkActivityWithInitiative
+  ViewInitiativesOnContactOverview
+  ViewInitiativeRelationships
+  ViewInitiativeActivities
+  ViewObjectiveActivities
+  ViewInitiativeInvolved
+  ViewObjectiveInvolved
+  ManageContactOtherAddressOnAdd
+  ManageContactFlags
+  ManageContactDetailsView
+  ManageContactSingleViewConfigurable
+  ManageUserRegionalSettings
+  ManageActivityTypeInOutlook
+  ViewSendEmail
+  ViewChipListWithIcons
+  ViewObjectiveCompanies
+  ViewInitiativeCompanies
+}
+
+enum FieldType {
+  Heading
+  Text
+  CustomField
+  Link
+  Separator
+  Notes
+}
+
+type FirmNote {
+  changeDate: String
+  folderId: ID
+  noteId: ID
+  notes: String
+}
+
+type FirmSettings {
+  allowAnonymousWKW: Boolean
+  allowUserToChangeDefaultContactConfidentialSettings: Boolean
+  allowUserToManageRegionalSettings: Boolean
+  applyContactUpdates: Boolean
+  appointmentDefaultVisibility: Int
+  appointmentsEnabled: Boolean
+  appointmentWithOutlookSyncEnabled: Boolean
+  businessDevInformationFolder: ID
+  businessDevInterestLabel: String
+  defaultNewActivityTypeId: String
+  defaultNewAppointmentTypeId: String
+  displayLogEmailButton: Boolean
+  excludeOurPersonnelInAppointment: Boolean
+  genderAdditionalFieldId: ID @deprecated(reason: "Should be using field 'languageSettings' instead")
+  includeAssociatedCompanyInAppointment: Boolean
+  includeMeetingTextInAppointment: Boolean
+  includeTextOnActivityCreate: Boolean
+  languages: LanguageResults @deprecated(reason: "Should be using field 'languageSettings' instead")
+  languageSettings: LanguageSettings
+  languageSpecificInfoEnabled: String @deprecated(reason: "Should be using field 'languageSettings' instead")
+  linkAssociatedCompanyOnActivityCreate: Boolean
+  minimumRequiredFields: [MinimumRequiredFieldType]
+  nomenclature(localeId: String!): Nomenclature
+  ourOrganizationId: String
+  powerBIReportUrl: String
+  reviewConfidentialUpdates: Boolean
+  suffixes: [String]
+  synchronizedPastdatedCalendarItemDays: Int
+  titles: [String]
+  userCanSetOutlookContactSyncSetting: Boolean
+}
+
+type FolderContactType {
+  allowedContactTypes: ContactTypes
+  availableAtNew: Boolean @deprecated(reason: "We want all folder contact types everywhere in the application")
+  folderDescription: String
+  folderId: String
+  folderType: String
+  id: ID
+  isApplied: Boolean
+  name: String
+  pluralName: String
+}
+
+type FolderContactTypeResults {
+  limit: Int
+  models: [FolderContactType]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type FolderFlag {
+  flag: ContactFlag!
+  flagDescription: String
+}
+
+input FolderFlagInput {
+  flag: ContactFlag!
+  flagDescription: String = null
+}
+
+type FolderType {
+  id: ID
+  isActive: Boolean
+  listClass: ListClass
+  name: String
+}
+
+type FolderTypeResults {
+  models: [FolderType]
+  totalModels: Int!
+}
+
+enum FormatTypes {
+  Flattened
+  None
+}
+
+enum FrequencyUnitsType {
+  Week
+  Month
+}
+
+type GeneralSettings {
+  enableContactNews: Boolean
+  newsDaysRange: Int
+}
+
+input GeneralSettingsInput {
+  enableContactNews: Boolean = null
+  newsDaysRange: Int = null
+}
+
+input GetFolderContactTypeInput {
+  contactType: ContactTypes = null
+  frequentOnly: Boolean = null
+  sourceFolderId: String = null
+  sortOrder: String = null
+  availableAtNewInd: Boolean = null
+}
+
+input GetStatesInput {
+  maxResultCount: String = null
+  stateId: String = null
+  stateAbbreviation: String = null
+  stateName: String = null
+  countryId: String = null
+  isoCode: String = null
+  countryName: String = null
+  includeInactive: Boolean = null
+  sortOrder: String = null
+}
+
+type Group {
+  id: ID
+  isActive: Boolean
+  name: String
+}
+
+input GroupFilter {
+  name: String = null
+}
+
+type GroupResults {
+  models: [Group]
+  totalModels: Int!
+}
+
+type Highlight {
+  field: String
+  highlights: [String]
+}
+
+type Industry {
+  id: ID
+  name: String
+}
+
+type IndustryResults {
+  models: [Industry]
+  totalModels: Int!
+}
+
+type Initiative {
+  activities(skip: Int = 0, limit: Int = 100, sort: [BusinessPlanningActivitySort!] = null, filter: BusinessPlanningActivityFilter = null): InitiativeActivityResults
+  activityCounts(filter: InitiativeActivityFilterInput = null): InitiativeActivityCountResults
+  companies: [BusinessPlanningCompany]
+  companyEmployeeRelationships(skip: Int = 0, limit: Int = 100, sort: [CompanyEmployeeRelationshipSortInput!] = null): BusinessPlanningConnectionResults
+  companyEmployees(skip: Int = 0, limit: Int = 100, sort: [CompanyEmployeeSortInput!] = null, filter: CompanyEmployeeFilterInput = null): CompanyEmployeeResults
+  description: String
+  endDate: Date
+  id: ID
+  involvedUsers: [BusinessPlanningPerson]
+  locations: [BusinessPlanningLocation]
+  name: String
+  objective: Objective
+  progress: Float
+  startDate: Date
+  tags: [BusinessPlanningTag]
+  types: BusinessPlanningTypes
+}
+
+type InitiativeActivityCount {
+  companyId: ID
+  companyName: String
+  count: Int
+  month: Int
+  year: Int
+}
+
+type InitiativeActivityCountResults {
+  models: [InitiativeActivityCount]
+  totalModels: Int!
+}
+
+input InitiativeActivityFilterInput {
+  activityDate: DateFilterInput = null
+}
+
+type InitiativeActivityResults {
+  limit: Int
+  models: [BusinessPlanningActivity]
+  skip: Int
+  sort: Sort
+  totalModels: Int
+}
+
+input InitiativeFilterInput {
+  name: String = null
+  parentObjectiveId: ID = null
+  companyId: ID = null
+  startDate: DateFilterInput = null
+  endDate: DateFilterInput = null
+}
+
+type InitiativeResults {
+  limit: Int
+  models: [Initiative]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum InitiativeSortField {
+  name
+  endDate
+  startDate
+}
+
+input InitiativeSortInput {
+  field: InitiativeSortField!
+  direction: SortDirection = Ascending
+}
+
+enum InvolvedUserField {
+  initiativeName
+  firstName
+  lastName
+  jobTitle
+  companyName
+  initiativeChangeDate
+}
+
+input InvolvedUserFilter {
+  initiativeName: String = null
+  firstName: String = null
+  lastName: String = null
+  jobTitle: String = null
+  companyName: String = null
+}
+
+input InvolvedUserSort {
+  field: InvolvedUserField!
+  direction: SortDirection = Ascending
+}
+
+type Language {
+  description: String
+  enumId: String
+  isActive: Boolean
+  label: String
+  value: String
+}
+
+type LanguageResults {
+  id: ID
+  languages: [Language]
+}
+
+type LanguageSettings {
+  genderAdditionalFieldId: ID
+  languages: LanguageResults
+  languageSpecificInfoEnabled: Boolean
+}
+
+type List {
+  accessRights: ListAccessRightResults
+  addActivityAllowed: Boolean
+  addAllowed: Boolean
+  additionalFieldDefinitions: AdditionalFieldDefinitionResults
+  allowedClearFlag: Boolean
+  allowedContactTypes: ContactTypes
+  allowedLinkInto: Boolean
+  allowedRemoveFrom: Boolean
+  allowedSetFlag: Boolean
+  availableAtNewIndicator: Boolean
+  contactIsMember(contactId: ID!): Boolean
+  contacts(contactFilter: ContactClassTypes = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null, filter: ListContactFilterInput = null): ListContactResults
+  creatorId: ID
+  creatorName: String
+  dcmApplies: Boolean
+  deleteAllowed: Boolean
+  description: String
+  folderFlags: [FolderFlag]
+  id: ID
+  isAdministrator: Boolean
+  isFavorite: Boolean
+  listClass: ListClass
+  myContactsNotInTheList(contactFilter: ContactClassTypes = null, includeIAC: Boolean = false, includeUnknown: Boolean = false, skip: Int = 0, limit: Int = 100): ListContactResults
+  name: String
+  newContactFlag: ContactFlag
+  owner: Person
+  ownerName: String
+  showFlags: Boolean
+  type: String
+  userIsContactSponsor(contactId: ID!): Boolean
+}
+
+type ListAccessRight {
+  accessorId: ID
+  accessorName: String
+  accessorRole: ListAccessRightAccessorRole
+  accessorRoleDisplayName: String
+  accessorRoleSortOrder: Int
+  accessorType: ListAccessRightAccessorType
+  id: ID
+  listId: ID
+}
+
+enum ListAccessRightAccessorRole {
+  None
+  Reviewer
+  Editor
+  Manager
+  Administrator
+  Custom
+}
+
+enum ListAccessRightAccessorType {
+  User
+  Group
+  All
+}
+
+type ListAccessRightResults {
+  limit: Int
+  models: [ListAccessRight]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum ListClass {
+  contactTypes
+  marketingList
+  marketingListWithSponsorship
+  workingList
+  unknown
+}
+
+type ListContact {
+  additionalFieldValues: AdditionalFieldValueResults
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  companyName: String
+  contact: Contact
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  displayName: String
+  emailAddress: String
+  flag: ContactFlag
+  flagDescription: String
+  id: ID
+  phoneNumber: String
+  sponsors: Sponsor
+  title: String
+  type: ContactTypes
+  visibility: ContactVisibility
+}
+
+input ListContactFilterInput {
+  displayName: String = null
+  jobTitle: String = null
+  companyName: String = null
+  businessPhoneNumber: String = null
+  businessEmailAddress: String = null
+  primarySponsorUserName: String = null
+  contactType: ListContactType = null
+}
+
+type ListContactResults {
+  limit: Int
+  models: [ListContact]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum ListContactType {
+  Any
+  Person
+  Company
+}
+
+enum ListFilterField {
+  name
+  listTypeIds
+  highlyManagedOnly
+  listContactType
+}
+
+input ListFilterInput {
+  field: ListFilterField = null
+  value: String = null
+  values: [String] = null
+}
+
+type ListResults {
+  limit: Int
+  models: [List]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum ListType {
+  all
+  myFrequentlyUsed
+}
+
+enum MailingAddressType {
+  None
+  Home
+  Business
+  Other
+}
+
+"""
+The `Milliseconds` scalar type represents a period of time represented as the total number of milliseconds.
+"""
+scalar Milliseconds
+
+enum MinimumRequiredFieldType {
+  email
+  lastName
+  phone
+}
+
+type MutateAdditionalFieldResults {
+  models: [UpdateListContactAdditionalFieldResults]
+}
+
+type MutateCompanyResults {
+  dcmTickets: [Int]
+  item: Company
+  status: ResultCode
+  validationErrors: [ValidationErrors]
+}
+
+type MutateContactResults {
+  contactsEffected: Int
+}
+
+type MutateListResults {
+  contactsEffected: Int
+  pendingContactsEffected: Int
+  pendingTickets: Boolean
+  resultText: String
+}
+
+type MutateLocationResults {
+  dcmTickets: [Int]
+  item: Contact
+  status: ResultCode
+  validationErrors: [ValidationErrors]
+}
+
+type MutatePersonResults {
+  dcmTickets: [Int]
+  item: Person
+  status: ResultCode
+  validationErrors: [ValidationErrors]
+}
+
+type MutateReminderResult {
+  id: ID
+  success: Boolean
+}
+
+type MutateUserProxyResult {
+  code: Int
+  text: String
+  totalCount: Int
+}
+
+type Mutation {
+  acceptTicketsForPersonalContacts(contactIds: [ID!]!): AcceptTicketsForPersonalContactsResult
+  acceptTicketsForPersonalContactsByFolders(folderIds: [ID!]!): AcceptTicketsForPersonalContactsResult
+  addActivity(input: AddActivityInput!): Activity
+  addAppointment(input: AddAppointmentInput!): Appointment
+  addCompany(input: AddCompanyInput!): MutateCompanyResults
+  addContactsToLists(listIds: [ID!]!, contactIds: [ID!]!): AddContactsToListResults
+  addContactToMyContacts(ids: [ID!]!): AddContactToMyContactsResults
+  addFavoriteList(listId: ID!): AddFavoriteListResult
+  addInitiative(input: AddInitiativeInput!): AddInitiativeResults
+  addListAccessRights(input: AddAccessRightsInput!): AddAccessRights
+  addMeAsMarketingListSponsor(contactId: ID!, marketingListIds: [ID!]!): MutateListResults
+  addNewsPreference(input: NewsPreferenceInput!): NewsPreferences
+  addNote(input: NoteInput!): Boolean
+  addObjective(input: AddObjectiveInput!): AddObjectiveResults
+  addOpportunity(input: AddOpportunityInput!): Opportunity
+  addOpportunityActivity(input: AddOpportunityActivityInput!): AddOpportunityActivityResult
+  addPerson(input: AddPersonInput!): AddPersonResults
+  addPersonalContactCategory(input: AddPersonalContactCategoryInput!): AddPersonalContactCategoryResult
+  addPersonalLocation(input: AddPersonalLocationInput!): MutateLocationResults
+  addPersonPhone(id: ID!, input: AddPhoneInput!): MutatePersonResults
+  addProxyToMe(proxyIds: [ID!]!): MutateUserProxyResult
+  addRelationship(input: AddRelationshipInput = null): AddRelationshipResults
+  addReminder(input: AddReminderInput!): MutateReminderResult
+  addWorkingList(input: AddListInput!): AddListResult
+  editActivity(input: EditActivityInput!): Activity
+  editPersonalLocation(input: UpdatePersonalLocationInput!): MutateLocationResults
+  editPersonEmploymentInformation(input: EditPersonEmploymentInformationInput!): MutatePersonResults
+  editPublicLocation(input: UpdatePublicLocationInput!): MutateLocationResults
+  editRelationship(input: EditRelationshipInput = null): EditRelationshipResult
+  editReminderPreferences(input: EditReminderPreferencesInput!): Boolean
+  editWatchListPreferences(input: EditWatchListPreferencesInput!): Boolean
+  editWorkingListDetails(input: EditWorkingListDetailsInput!): EditWorkingListDetailsResult
+  promoteUserContactsToFirm(contactIds: [ID!]!): PromoteUserContactsToFirmResult
+  removeActivity(id: ID!): Activity
+  removeContacts(ids: [ID!]!): MutateContactResults
+  removeContactsFromList(listId: ID!, contactIds: [ID!]!): MutateListResults
+  removeFavoriteList(listId: ID!): RemoveFavoriteListResult
+  removeListAccessRights(id: ID!, listId: ID!): RemoveAccessRightResult
+  removeMeAsMarketingListSponsor(contactId: ID!, marketingListIds: [ID!]!): MutateListResults
+  removePersonalContactCategories(categoryIds: [ID!]!): RemovePersonalContactCategoriesResult
+  removeProxyFromMe(proxyIds: [ID!]!): MutateUserProxyResult
+  removeRelationship(input: RemoveRelationshipInput = null): RemoveRelationshipResult
+  removeWorkingList(listId: ID!): Boolean
+  setAddKnowsRelationshipByDefault(addKnowsRelationshipByDefault: Boolean!): SetAddKnowsRelationshipByDefaultResult
+  setAutoUpdateForPersonalContacts(contactIds: [ID!]!): SetAutoUpdateForPersonalContactsResult
+  setFirmDisplayLogEmailButton(input: Boolean!): Boolean
+  setPowerBIReportUrl(input: String!): String
+  updateAlertPanelSettings(input: AlertPanelSettingsInput!): AlertPanelSettings
+  updateContactAdditionalFields(input: UpdateContactAdditionalFieldsInput!): MutatePersonResults
+  updateContactsForFolderFlag(input: UpdateContactsForFolderFlagInput!): UpdateContactsForFolderFlagResult
+  updateContactVisibility(input: [UpdateContactVisibilityInput!]!): UpdateContactVisibilityResult
+  updateFirmCalendarSyncSettings(input: UpdateCalendarSyncSettingsInput!): UpdateCalendarSyncSettingsResults
+  updateFirmNomenclature(input: UpdateFirmNomenclatureInput!): Nomenclature
+  updateListAccessRights(id: ID!, input: UpdateAccessRightsInput!): UpdateAccessRightsResults
+  updateListContactAdditionalFields(input: UpdateListContactAdditionalFieldInput!): MutateAdditionalFieldResults
+  updateOpportunityDetails(input: UpdateOpportunityDetailsInput!): UpdateOpportunityResult
+  updateOpportunityPeople(input: UpdateOpportunityPeopleInput!): UpdateOpportunityResult
+  updateOpportunityStageInstances(input: UpdateOpportunityStageInstanceInput!): UpdateOpportunityResult
+  updateOpportunityStatus(input: UpdateOpportunityStatusInput!): UpdateOpportunityResult
+  updateOpportunitySummary(input: UpdateOpportunitySummaryInput!): UpdateOpportunityResult
+  updateOutlookContactSyncSetting(outlookContactSync: OutlookContactSyncSetting!): UpdateOutlookContactSyncSettingResult
+  updatePerson(id: ID!, input: UpdatePersonInput!): MutatePersonResults
+  updatePersonalContactCategory(input: UpdatePersonalContactCategoryInput!): UpdatePersonalContactCategoryResult
+  updatePersonalContactForTickets(input: UpdatePersonalContactForTicketsInput!): UpdatePersonalContactForTicketsResult
+  updatePersonalContactsForSettings(input: UpdatePersonalContactsForSettingsInput!): UpdatePersonalContactsForSettingsResult
+  updatePersonalContactsToAddCategories(input: UpdatePersonalContactsToAddCategoriesInput!): UpdatePersonalContactsToAddCategoriesResult
+  updatePersonalContactsToRemoveCategory(input: UpdatePersonalContactsToRemoveCategoryInput!): UpdatePersonalContactsToRemoveCategoryResult
+  updatePublicCompany(input: UpdatePublicCompanyInput!): MutateCompanyResults
+  updatePublicPerson(input: UpdatePublicPersonInput!): MutatePersonResults
+  updateRegionalSettings(input: UpdateRegionalSettingsInput!): RegionalSettings
+  updateSharedOrPersonalCompany(input: UpdateSharedOrPersonalCompanyInput!): MutateCompanyResults
+  updateSharedOrPersonalPerson(input: UpdateSharedOrPersonalPersonInput!): MutatePersonResults
+  updateUserContactDefaults(input: UpdateUserContactDefaultsInput!): UpdateUserContactDefaultsResult
+  updateUserContactReviewSettings(input: UpdateUserContactReviewSettingsInput!): UpdateUserContactReviewSettingsResult
+  updateUserDashboardSettings(key: String!, input: UpdateUserDashboardSettingsInput!): DashboardSettings
+  updateUserSetting(setting: TargetUserSetting!, input: UserSettingInput!): UserSettings
+  updateUserTableSettings(key: String!, input: UpdateUserTableSettingsInput!): TableSettings
+}
+
+type MyNote {
+  changeDate: String
+  notes: String
+}
+
+type NewContactRecommendation {
+  companyCommonName: String
+  companyName: String
+  contactClass: Int
+  contactState: Int
+  displayName: String
+  email: String
+  id: ID!
+  phoneNumber: String
+  phoneType: Int
+  recommendationReason: String
+  recommendedVisibility: ContactVisibility
+  type: ContactTypes
+  visibility: ContactVisibility
+}
+
+type NewContactRecommendationResults {
+  limit: Int
+  models: [NewContactRecommendation]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type NewsArticle {
+  articleText: String
+  datePublishied: String
+  description: String
+  name: String
+  providerName: String
+  source: NewsSource!
+  topics: [Float]
+  url: String
+}
+
+type NewsArticleResults {
+  models: [NewsArticle]
+  totalModels: Int!
+}
+
+input NewsPreferenceInput {
+  url: String = null
+  text: String = null
+  topics: [Float] = null
+  preference: Preference = null
+}
+
+type NewsPreferences {
+  id: ID
+  topics: [Float]
+}
+
+enum NewsSource {
+  Bing
+  Nexis
+}
+
+type Nomenclature {
+  businessPlanning: NomenclatureTerm
+  initiative: NomenclatureTerm
+  objective: NomenclatureTerm
+}
+
+type NomenclatureTerm {
+  plural: String
+  singular: String
+}
+
+input NoteInput {
+  note: String!
+  changeDate: String = null
+  id: ID!
+  noteId: ID = null
+}
+
+type NoteResults {
+  models: [FirmNote]
+  totalModels: Int!
+}
+
+type Notes {
+  allNotes: NoteResults
+  firmNote: FirmNote
+  myNote: MyNote
+}
+
+type Objective {
+  activities(skip: Int = 0, limit: Int = 100, sort: [BusinessPlanningActivitySort!] = null, filter: BusinessPlanningActivityFilter = null): InitiativeActivityResults
+  activityCounts(filter: ObjectiveActivityFilterInput = null): ObjectiveActivityCountResults
+  companies(skip: Int = 0, limit: Int = 100, sort: [BusinessPlanningCompanySort!] = null, filter: BusinessPlanningCompanyFilter = null): BusinessPlanningCompanyResults
+  description: String
+  endDate: Date
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  involvedUsers(skip: Int = 0, limit: Int = 100, sort: [InvolvedUserSort!] = null, filter: InvolvedUserFilter = null): ObjectivePersonResults
+  locations: [BusinessPlanningLocation]
+  name: String
+  progress: Int
+  startDate: Date
+  tags: [BusinessPlanningTag]
+  types: BusinessPlanningTypes
+}
+
+type ObjectiveActivityCount {
+  count: Int
+  initiativeId: ID
+  initiativeName: String
+  month: Int
+  year: Int
+}
+
+type ObjectiveActivityCountResults {
+  models: [ObjectiveActivityCount]
+  totalModels: Int!
+}
+
+input ObjectiveActivityFilterInput {
+  activityDate: DateFilterInput = null
+}
+
+input ObjectiveFilterInput {
+  name: String = null
+  description: String = null
+  startDate: DateFilterInput = null
+  endDate: DateFilterInput = null
+}
+
+type ObjectivePerson {
+  companyName: String
+  firstName: String
+  id: ID
+  initiativeChangeDate: Date
+  initiativeId: ID
+  initiativeName: String
+  jobTitle: String
+  lastName: String
+  person: Person
+}
+
+type ObjectivePersonResults {
+  limit: Int
+  models: [ObjectivePerson]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type ObjectiveResults {
+  limit: Int
+  models: [Objective]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+enum ObjectiveSortField {
+  name
+  description
+  endDate
+}
+
+input ObjectiveSortInput {
+  field: ObjectiveSortField!
+  direction: SortDirection = Ascending
+}
+
+type Opportunity {
+  activityCounts(filter: OpportunityActivityFilterInput = null): OpportunityActivityCountResults
+  actualOutcome: OpportunityOutcome
+  actualOutcomeReason: OpportunityOutcomeReason
+  actualRevenue: Int
+  associatedContacts: [OpportunityTargetCompanyContact!]
+  associatedInitiative: Initiative
+  associatedMatter: String
+  associatedPrincipals: [OpportunityLead!]
+  dateClosed: Date
+  dateOpened: Date
+  description: String
+  estimatedEndDate: Date
+  estimatedStartDate: Date
+  id: ID
+  industryType: Industry
+  opportunityType: OpportunityType
+  originationSource: OpportunityOriginationSource
+  originationSourceContact: Person
+  practiceGroup: PracticeGroup
+  projectedOutcome: OpportunityOutcome
+  projectedRevenue: Int
+  stageInstances: [OpportunityStageInstance!]
+  targetCompany: Company
+  title: String
+}
+
+type OpportunityActivityCount {
+  activityTypeId: Int
+  count: Int
+  month: Int
+  opportunityId: ID
+  year: Int
+}
+
+type OpportunityActivityCountResults {
+  models: [OpportunityActivityCount]
+  totalModels: Int!
+}
+
+input OpportunityActivityFilterInput {
+  activityDate: DateFilterInput = null
+}
+
+enum OpportunityFilterField {
+  title
+  targetCompanyName
+  opportunityTypeName
+  targetCompanyId
+}
+
+input OpportunityFilterInput {
+  field: OpportunityFilterField!
+  value: String!
+}
+
+type OpportunityLead {
+  accountName: String
+  isGroup: Boolean
+  isPrimary: Boolean
+  opportunityId: ID
+  user: User
+}
+
+type OpportunityOriginationSource {
+  description: String
+  id: ID
+  name: String
+}
+
+type OpportunityOriginationSourceResults {
+  models: [OpportunityOriginationSource]
+  totalModels: Int!
+}
+
+type OpportunityOutcome {
+  description: String
+  id: ID
+  name: String
+}
+
+type OpportunityOutcomeReason {
+  description: String
+  id: ID
+  name: String
+  outcomeId: ID
+}
+
+type OpportunityOutcomeReasonResults {
+  models: [OpportunityOutcomeReason]
+  totalModels: Int!
+}
+
+type OpportunityOutcomeResults {
+  models: [OpportunityOutcome]
+  totalModels: Int!
+}
+
+type OpportunityResults {
+  models: [Opportunity]
+  totalModels: Int!
+}
+
+enum OpportunitySortField {
+  title
+  targetCompanyName
+  opportunityTypeName
+  changeDate
+}
+
+input OpportunitySortInput {
+  field: OpportunitySortField!
+  direction: SortDirection = Ascending
+}
+
+type OpportunityStageInstance {
+  id: ID
+  opportunityId: ID
+  stageName: String
+  stageOrder: Int
+  timeEntered: DateTime
+  timeSpent: Int
+}
+
+type OpportunityTargetCompanyContact {
+  contactId: ID
+  isPrimary: Boolean
+  opportunityId: ID
+  person: Person
+}
+
+input OpportunityTargetCompanyContactInput {
+  contactId: ID = null
+  isPrimary: Boolean = null
+}
+
+input OpportunityTeamMemberInput {
+  id: ID = null
+  isPrimary: Boolean = null
+  isGroup: Boolean = null
+}
+
+type OpportunityType {
+  description: String
+  id: ID
+  name: String
+}
+
+type OpportunityTypeResults {
+  models: [OpportunityType]
+  totalModels: Int!
+}
+
+enum OutlookContactSyncSetting {
+  confirmAddToFirmList
+  addToMyContactsOnly
+  addToFirmList
+}
+
+enum PanelLocation {
+  Left
+  Right
+}
+
+type PanelSettings {
+  enabled: Boolean
+  key: String
+  order: Int
+  panelLocation: PanelLocation
+}
+
+input PanelSettingsInput {
+  key: String!
+  order: Int!
+  enabled: Boolean!
+  panelLocation: PanelLocation!
+}
+
+type PastReminder {
+  activityDateDisplay: String
+  activityType: String
+  contact: PastReminderContact
+  id: ID!
+  summary: String
+}
+
+type PastReminderContact {
+  companyId: ID
+  companyName: String
+  contactDisplayName: String
+  contactType: ContactTypes
+  id: ID
+  primaryEmail: String
+}
+
+type PastReminderResults {
+  limit: Int
+  models: [PastReminder]
+  skip: Int
+  totalModels: Int!
+}
+
+type Person implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  assistantName: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  confidentialFields: PersonConfidentialFields
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  currentEmployer: Company
+  currentJobTitle: String
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  firstName: String
+  fullName: String
+  goesBy: String
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isActiveUser: Boolean
+  isEmployee: Boolean
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lastName: String
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  middleName: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  opportunities: OpportunityResults
+  pendingTickets: Boolean
+  personal: PersonalPerson
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  shared: SharedPerson
+  sourceFolder: SourceFolderTypes
+  suffix: String
+  tags: [String]
+  title: String
+  type: ContactTypes
+  userId: ID
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type PersonalCompany implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  alias: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  name: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  sourceFolder: SourceFolderTypes
+  tags: [String]
+  type: ContactTypes
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type PersonalContactCategoriesResult {
+  models: [PersonalContactCategory]
+  totalModels: Int!
+}
+
+type PersonalContactCategory {
+  id: ID
+  name: String
+}
+
+enum PersonalContactFieldType {
+  Title
+  FirstName
+  LastName
+  MiddleName
+  Suffix
+  GoesBy
+  JobTitle
+  Department
+  CompanyName
+  AssistantName
+  BusinessPhoneNumber
+  Business2PhoneNumber
+  BusinessFaxNumber
+  MobilePhoneNumber
+  PagerNumber
+  BusinessElectronicAddress
+  BusinessWebSite
+  AssistantPhoneNumber
+  HomePhoneNumber
+  HomeFaxNumber
+  HomeElectronicAddress
+  BusinessAddress
+  HomeAddress
+}
+
+type PersonalContactTicket {
+  firmContactValue: String
+  firmContactValueLastEditedBy: String
+  firmContactValueLastEditedDate: Date
+  hasDifferentValues: Boolean
+  hasUserDcmTicket: Boolean
+  isTicketForConfidentialField: Boolean
+  personalContactValue: String
+  ticketType: PersonalContactFieldType
+  userDcmTicketDate: Date
+  userDcmTicketType: DcmTicketType
+}
+
+type PersonalContactTicketsResult {
+  contactLastUpdatedDate: Date
+  personalContactTickets: [PersonalContactTicket]
+}
+
+type PersonalContactView {
+  businessEmailAddress: String
+  businessPhoneNumber: String
+  companyName: String
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  displayName: String
+  id: ID
+  jobTitle: String
+  type: ContactTypes
+  visibility: ContactVisibility
+}
+
+input PersonalContactViewFilterInput {
+  displayName: String = null
+  jobTitle: String = null
+  companyName: String = null
+  businessPhoneNumber: String = null
+  businessEmailAddress: String = null
+  hasCategoryNotSet: Boolean = false
+  categoryIds: [ID] = null
+}
+
+type PersonalContactViewResults {
+  limit: Int
+  models: [PersonalContactView]
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type PersonalPerson implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  assistantName: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  currentEmployer: Company
+  currentJobTitle: String
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  firstName: String
+  goesBy: String
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lastName: String
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  middleName: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  sourceFolder: SourceFolderTypes
+  suffix: String
+  tags: [String]
+  title: String
+  type: ContactTypes
+  userId: ID
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type PersonConfidentialFields {
+  assistantName: Boolean
+  assistantPhone: Boolean
+  businessAddress: Boolean
+  companyPhone: Boolean
+  email: Boolean
+  fax: Boolean
+  goesBy: Boolean
+  homeAddress: Boolean
+  homeEmail: Boolean
+  homeFax: Boolean
+  homePhone: Boolean
+  mobilePhone: Boolean
+  pager: Boolean
+  primaryPhone: Boolean
+  website: Boolean
+}
+
+input PersonConfidentialFieldsInput {
+  goesBy: Boolean = null
+  businessAddress: Boolean = null
+  homeAddress: Boolean = null
+  primaryPhone: Boolean = null
+  companyPhone: Boolean = null
+  fax: Boolean = null
+  mobilePhone: Boolean = null
+  pager: Boolean = null
+  email: Boolean = null
+  website: Boolean = null
+  assistantName: Boolean = null
+  assistantPhone: Boolean = null
+  homeEmail: Boolean = null
+  homeFax: Boolean = null
+  homePhone: Boolean = null
+}
+
+type PersonResults {
+  limit: Int
+  models: [Person]
+  searchTerms: SearchTerms
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+type PersonSearch {
+  activities(startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  currentEmployer: Company
+  currentJobTitle: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  firstName: String
+  goesBy: String
+  highlights: [Highlight]
+  id: ID
+  lastName: String
+  middleName: String
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  relevancyScore: Float
+  suffix: String
+  tags: [String]
+  title: String
+}
+
+type PersonSearchResults {
+  limit: Int
+  models: [PersonSearch]
+  searchTerms: SearchTerms
+  skip: Int
+  sort: Sort
+  totalModels: Int!
+}
+
+input PhoneInput {
+  id: ID = null
+  owningContactId: ID = null
+  number: String = null
+  usage: UsageTypes = null
+  phoneType: PhoneNumberTypes = null
+}
+
+type PhoneNumber {
+  addressId: ID
+  id: ID
+  isGlobal: Boolean
+  label: String
+  number: String
+  owningContactId: ID
+  type: PhoneNumberTypes
+  usage: UsageTypes
+}
+
+enum PhoneNumberTypes {
+  Mobile
+  Phone
+  Pager
+  Fax
+  Computer
+  Assistant
+  Other
+}
+
+type PracticeGroup {
+  id: ID
+  name: String
+}
+
+type PracticeGroupResults {
+  models: [PracticeGroup]
+  totalModels: Int!
+}
+
+enum Preference {
+  Like
+  Dislike
+}
+
+type Profile {
+  contactTypeIds: [ID]
+  displayOrder: Int
+  groupCriterionIds: [ID]
+  listingType: String
+  name: String
+  profileId: ID
+  profileItems: [ProfileItem]
+  userCriterionIds: [ID]
+}
+
+type ProfileDataType {
+  contactTypesAllowed: String
+  dataType: AdditionalFieldDataType
+  displayDataType: String
+  falseValue: String
+  trueValue: String
+}
+
+type ProfileItem {
+  associatedCompanyValue: Boolean
+  customFieldId: Int!
+  dataType: ProfileDataType
+  displayMask: String
+  hideIfEmpty: Boolean
+  href: String
+  label: String
+  note: FirmNote
+  summary: Boolean
+  type: FieldType
+}
+
+type ProfileResults {
+  limit: Int
+  models: [Profile]
+  skip: Int
+  totalModels: Int!
+}
+
+type PromoteUserContactsToFirmResult {
+  contacts: [Contact]
+}
+
+type ProxyUser {
+  accountName: String
+  canAccessReminders: Boolean
+  canAccessRemindersForOthers: Boolean
+  contact: Person
+  displayName: String
+  userId: ID
+}
+
+input PublicElectronicAddressInput {
+  id: ID = null
+  owningContactId: ID = null
+  electronicAddress: String = null
+  usage: UsageTypes = null
+  electronicAddressType: EmailAddressTypes = null
+  description: String = null
+}
+
+input PublicPhoneInput {
+  id: ID = null
+  owningContactId: ID = null
+  number: String = null
+  usage: UsageTypes = null
+  phoneType: PhoneNumberTypes = null
+  addressId: ID = null
+  description: String = null
+}
+
+type Query {
+  activity(id: ID!): Activity
+  activityTypes(onlyUserCreatable: Boolean = true, onlyUserSearchable: Boolean = false, appointmentTypesOnly: Boolean = false, skip: Int = 0, limit: Int = 100, watchable: Boolean = false): ActivityTypeResults
+  appointment(exchangeId: ID!): Appointment
+  company(id: ID!): Company
+  contact(id: ID!): Contact
+  contactDupSearch(search: DupSearchInput!, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactResults
+  contacts(type: ContactTypes = Any, contactClass: ContactClassTypes = Any, skip: Int = 0, limit: Int = 100, sort: SortInput = null, filter: [ContactFilterInput] = null): ContactResults
+  countries: CountryResults
+  country(id: ID!): Country
+  email(requestId: ID!, emailInfo: EmailInfo = null): EmailInfoResults
+  firmSettings: FirmSettings
+  folderContactTypes(input: GetFolderContactTypeInput = null, skip: Int = 0, limit: Int = 100): FolderContactTypeResults
+  folderTypes(listClass: [ListClass] = null): FolderTypeResults
+  group(filter: GroupFilter = null): GroupResults
+  industries: IndustryResults
+  initiative(id: ID!): Initiative
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  list(id: ID!): List
+  lists(listClass: [ListClass] = null, listType: ListType = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null, filter: [ListFilterInput] = null): ListResults
+  newContactRecommendations(skip: Int = 0, limit: Int = 100, sort: SortInput = null): NewContactRecommendationResults
+  objective(id: ID!): Objective
+  objectives(skip: Int = 0, limit: Int = 100, sort: [ObjectiveSortInput!] = null, filter: ObjectiveFilterInput = null): ObjectiveResults
+  opportunities(skip: Int = 0, limit: Int = 100, sort: [OpportunitySortInput!] = null, filter: [OpportunityFilterInput!] = null): OpportunityResults
+  opportunity(id: ID!): Opportunity
+  opportunityOriginationSources: OpportunityOriginationSourceResults
+  opportunityOutcomeReasons: OpportunityOutcomeReasonResults
+  opportunityOutcomes: OpportunityOutcomeResults
+  opportunityType(id: ID!): OpportunityType
+  opportunityTypes: OpportunityTypeResults
+  people(ids: [ID!]!): [Person]
+  person(id: ID!): Person
+  personalContactViews(skip: Int = 0, limit: Int = 100, sort: SortInput = null, filter: PersonalContactViewFilterInput = null): PersonalContactViewResults
+  practiceGroups: PracticeGroupResults
+  profile(contactId: ID!): ProfileResults
+  regionalSettings: RegionalSettings
+  reminders(id: ID!): Reminders
+  searchContacts(search: SearchInput = null, type: ContactTypes = Any, contactClass: ContactClassTypes = Any, skip: Int = 0, limit: Int = 100, sort: SortInput = null, filter: [ContactFilterInput] = null): ContactResults
+  user: User
+  userSettings(id: ID!): UserSettings @deprecated(reason: "Use 'user/settings' query instead")
+}
+
+type RegionalLanguage {
+  id: ID
+  isoCode: String
+  localName: String
+  name: String
+}
+
+type RegionalSetting {
+  code: String
+  id: ID
+  name: String
+}
+
+type RegionalSettings {
+  country: RegionalSetting
+  countryCode: String @deprecated(reason: "Should be using field 'country' instead")
+  countryId: ID @deprecated(reason: "Should be using field 'country' instead")
+  countryName: String @deprecated(reason: "Should be using field 'country' instead")
+  language: RegionalSetting
+  languages: [RegionalLanguage]
+  locale: RegionalSetting
+}
+
+type RelationshipPerson {
+  currentEmployerName: String
+  currentJobTitle: String
+  emailAddresses(type: EmailAddressTypes = null): [EmailAddress]
+  firstName: String
+  goesBy: String
+  id: ID
+  lastName: String
+  phoneNumbers(type: PhoneNumberTypes = null): [PhoneNumber]
+  score: Score
+}
+
+type RelationshipResults {
+  limit: Int
+  models: [RelationshipPerson]
+  skip: Int
+  totalModels: Int!
+}
+
+enum RelationshipStatus {
+  Confirmed
+  Denied
+}
+
+enum RelationshipTypes {
+  All
+  Coworkers
+  Knows
+  WhoKnowsWho
+  PersonBoardMember
+  CompanyBoardMember
+  Employees
+  PeopleMyCoworkersKnow
+  Employment
+  Education
+  CorporateStructure
+}
+
+type Reminder {
+  contactDisplayName: String
+  contactId: ID
+  description: String
+  frequency: Int
+  frequencyUnits: FrequencyUnitsType
+  id: ID
+  nextDeliveryDate: Date
+  reminderUserDisplayName: String
+}
+
+type ReminderPreferences {
+  canAccessReminders: Boolean
+  canAccessRemindersForOthers: Boolean
+  defaultReminderFrequency: Int
+  defaultReminderFrequencyUnits: Int
+  deliveryDay: Int
+  deliveryFrequency: Int
+  mailPreference: Int
+}
+
+type ReminderResults {
+  limit: Int
+  models: [Reminder]
+  skip: Int
+  totalModels: Int!
+}
+
+type Reminders {
+  currentReminders(skip: Int = 0, limit: Int = 100): ReminderResults
+  pastReminders(days: Int = 0, skip: Int = 0, limit: Int = 100): PastReminderResults
+  preferences: ReminderPreferences
+}
+
+type RemoveAccessRightResult {
+  id: ID!
+  isSuccessful: Boolean
+}
+
+type RemoveFavoriteListResult {
+  list: List
+  success: Boolean
+}
+
+type RemovePersonalContactCategoriesResult {
+  failedCategoryIds: [ID]
+  successfulCategoryIds: [ID]
+}
+
+input RemoveRelationshipInput {
+  relatedContactId: ID!
+  relationshipId: ID!
+  relationshipType: RelationshipTypes = null
+}
+
+type RemoveRelationshipResult {
+  contactId: ID!
+  success: Boolean
+}
+
+enum ResultCode {
+  NoChange
+  ChangeAccepted
+  ChangeInReview
+  ChangeSubmittedForApproval
+}
+
+type Score {
+  description: String
+  maxValue: Int!
+  strength: Int!
+  value: Int!
+}
+
+enum SearchField {
+  Term
+  EmailAddress
+  EmailAndFullName
+}
+
+input SearchInput {
+  field: SearchField = Term
+  values: [String] = null
+  value: EmailInput = null
+}
+
+enum SearchResultsFrom {
+  Term
+  EmailAddress
+  FullName
+}
+
+type SearchTerms {
+  company: String
+  emailAddress: String
+  firstName: String
+  lastName: String
+  term: String
+}
+
+"""
+The `Seconds` scalar type represents a period of time represented as the total number of seconds.
+"""
+scalar Seconds
+
+type SetAddKnowsRelationshipByDefaultResult {
+  success: Boolean
+  userContactDefaults: UserContactDefaults
+}
+
+type SetAutoUpdateForPersonalContactsResult {
+  failedContactIds: [ID]
+  successfulContactIds: [ID]
+}
+
+type SettingsActivityGroup {
+  activityGroupId: ID
+  activityGroupName: String
+  activityTypes: [SettingsActivityType]
+}
+
+type SettingsActivityType {
+  activityTypeId: ID
+  activityTypeName: String
+  watched: Boolean
+}
+
+type SettingsContactType {
+  contactTypeId: ID
+  folderId: ID
+  name: String
+  watched: Boolean
+}
+
+type SharedCompany implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  alias: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String
+  contactTypes: [ContactFolderContactType]
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  name: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  sourceFolder: SourceFolderTypes
+  tags: [String]
+  type: ContactTypes @deprecated(reason: "Should be using field 'type' instead")
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type SharedPerson implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  assistantName: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  currentEmployer: Company
+  currentJobTitle: String
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  firstName: String
+  goesBy: String
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lastName: String
+  lists(listClass: [ListClass] = null, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  middleName: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  sourceFolder: SourceFolderTypes
+  suffix: String
+  tags: [String]
+  title: String
+  type: ContactTypes
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+type SignatureEntity {
+  chunks: [Chunk]
+  entityType: SignatureEntityType
+  text: String
+}
+
+enum SignatureEntityType {
+  UNK
+  PersonName
+  CompanyName
+  JobTitle
+  Address
+  CityStatePostal
+  BusinessEmail
+  OtherEmail
+  DirectPhone
+  CompanyPhone
+  MobilePhone
+  Fax
+  OtherPhone
+  WebSite
+  SocialMedia
+}
+
+type Sort {
+  direction: String
+  field: String!
+}
+
+enum SortDirection {
+  Ascending
+  Descending
+}
+
+input SortInput {
+  field: String = null
+  direction: String = null
+}
+
+enum SourceFolderTypes {
+  companyFirmContacts
+  peopleFirmContacts
+  companyNewContactReview
+  peopleNewContactReview
+  other
+}
+
+type Sponsor {
+  contact: Person
+  displayName: String
+  fullName: String
+  id: ID
+  isPrimary: Boolean
+}
+
+type State {
+  abbreviation: String
+  id: ID
+  name: String
+}
+
+type StateResults {
+  models: [State]
+  postalCodeLabel: String
+  stateLabel: String
+  totalModels: Int!
+  useStates: Boolean
+}
+
+type Subscription {
+  activityCreated(contactIds: [ID!]!, includeUserCreatedActivities: Boolean = false): ActivityCreated
+}
+
+type TableSettings {
+  columnSettings: [ColumnSettings]
+  key: String
+}
+
+type TargetContact implements ConnectionContact {
+  commonName: String
+  companyAlias: String
+  companyContactId: ID
+  companyName: String
+  contactId: ID
+  contactState: Int
+  contactType: ContactTypes
+  department: String
+  displayName: String
+  email: String
+  firstName: String
+  id: ID
+  jobTitle: String
+  lastName: String
+  middleName: String
+  office: String
+  primaryPhone: String
+  visibility: ContactVisibility
+  website: String
+}
+
+enum TargetUserSetting {
+  EnableNews
+  PreferredContactView
+  NewsDaysRange
+  OutlookPreferredActivityTypeIds
+}
+
+interface Trackable {
+  changeDate: Date
+  changeId: Int
+  createDate: Date
+  createId: Int
+}
+
+type TrackingInfo {
+  accountId: String
+  visitorId: String
+}
+
+type Unknown implements Contact {
+  activities(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null, skip: Int = 0, limit: Int = 100): ActivityResults
+  activityCounts(activityTypeIds: [ID] = null, startDateRange: Date = null, endDateRange: Date = null): ActivityCountResults
+  additionalFieldValues(listId: ID!): AdditionalFieldValueResults
+  addresses(type: AddressTypes = null, usage: UsageTypes = null): [Address]
+  assistantName: String
+  canAutoUpdate: Boolean
+  class: String @deprecated(reason: "Should be using field 'visibility' instead")
+  confidentialFields: PersonConfidentialFields
+  connections(formatType: FormatTypes = Flattened, relationshipType: RelationshipTypes = All, includeUnconfirmed: Boolean = null, skip: Int = 0, limit: Int = 100): ConnectionResults
+  connectionsWithContact(relatedContactId: ID!, relationshipType: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): ConnectionResults
+  contactAdditionalFieldValues: ContactAdditionalFieldValueResults
+  contactState: ContactStateTypes @deprecated(reason: "Should be using field 'visibility' instead")
+  contactType: String @deprecated(reason: "Should be using field 'type' instead")
+  contactTypes: [ContactFolderContactType]
+  currentEmployer: Company
+  currentJobTitle: String
+  displayName: String
+  emailAddresses(type: EmailAddressTypes = null, usage: UsageTypes = null): [EmailAddress]
+  firstName: String
+  fullName: String
+  goesBy: String
+  id: ID
+  initiatives(skip: Int = 0, limit: Int = 100, sort: [InitiativeSortInput!] = null, filter: InitiativeFilterInput = null): InitiativeResults
+  isPendingFirmContact: Boolean!
+  isPersonal: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isPrivate: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  isShared: Boolean @deprecated(reason: "Should be using field 'visibility' instead")
+  lastName: String
+  lists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  middleName: String
+  news(newsSource: NewsSource!): NewsArticleResults
+  notes: Notes
+  notIncludedInTheLists(listClass: [ListClass] = null, listType: ListType = all, skip: Int = 0, limit: Int = 100, sort: SortInput = null): ContactListResults
+  pendingTickets: Boolean
+  personal: PersonalPerson
+  personalContactCategories: PersonalContactCategoriesResult
+  personalContactTicketsDetail: PersonalContactTicketsResult
+  phoneNumbers(type: PhoneNumberTypes = null, usage: UsageTypes = null): [PhoneNumber]
+  relationships(type: RelationshipTypes = All, skip: Int = 0, limit: Int = 100): RelationshipResults
+  relationshipScore: Score
+  shared: SharedPerson
+  sourceFolder: SourceFolderTypes
+  suffix: String
+  tags: [String]
+  title: String
+  type: ContactTypes
+  userId: ID
+  viewContactUrl: String
+  visibility: ContactVisibility
+}
+
+input UpdateAccessRightsInput {
+  listId: ID!
+  accessorRole: ListAccessRightAccessorRole!
+}
+
+type UpdateAccessRightsResults {
+  accessorRole: ListAccessRightAccessorRole
+  id: ID
+}
+
+input UpdateCalendarSyncSettingsInput {
+  enableAppointmentWithOutlookSync: Boolean!
+  appointmentVisibility: Int!
+  associatedCompanyInAppointment: Boolean!
+  excludeOurPersonnelInAppointment: Boolean!
+  meetingTextInAppointment: Boolean!
+  appointmentTypeId: String!
+  syncPastdatedCalendarItemDays: Int!
+}
+
+type UpdateCalendarSyncSettingsResults {
+  success: Boolean
+}
+
+input UpdateContactAdditionalFieldsInput {
+  id: ID!
+  contactAdditionalFields: [AdditionalField] = null
+}
+
+input UpdateContactsForFolderFlagInput {
+  contactIds: [ID!]!
+  contactFlag: ContactFlag!
+  folderId: ID!
+}
+
+type UpdateContactsForFolderFlagResult {
+  isSuccessful: Boolean
+}
+
+input UpdateContactVisibilityInput {
+  id: ID!
+  visibility: ContactVisibility = null
+}
+
+type UpdateContactVisibilityResult {
+  personalStatus: UpdateContactVisibilityStatus
+  sharedStatus: UpdateContactVisibilityStatus
+}
+
+enum UpdateContactVisibilityStatus {
+  NoChange
+  Success
+  Failed
+}
+
+input UpdateFirmNomenclatureInput {
+  localeId: String!
+  objectiveTerm: String!
+  objectivePluralTerm: String!
+  initiativeTerm: String!
+  initiativePluralTerm: String!
+  businessPlanningTerm: String!
+}
+
+input UpdateListContactAdditionalFieldInput {
+  contactId: ID!
+  additionalFields: [AdditionalField]!
+}
+
+type UpdateListContactAdditionalFieldResults {
+  failureReason: String
+  fieldId: ID
+  isSuccessful: Boolean
+  valueId: ID
+}
+
+input UpdateOpportunityDetailsInput {
+  opportunityId: ID!
+  practiceGroup: ID = null
+  industryType: ID = null
+  estimatedStartDate: Date = null
+  estimatedEndDate: Date = null
+  originationSourceId: ID = null
+  originationSourceContactId: ID = null
+}
+
+input UpdateOpportunityPeopleInput {
+  opportunityId: ID!
+  associatedPrincipals: [OpportunityTeamMemberInput!] = null
+  associatedContacts: [OpportunityTargetCompanyContactInput!] = null
+}
+
+type UpdateOpportunityPeopleResults {
+  failureReason: String
+  isSuccessful: Boolean
+  opportunityId: ID
+}
+
+type UpdateOpportunityResult {
+  opportunityId: ID!
+}
+
+input UpdateOpportunityStageInstanceInput {
+  opportunityId: ID!
+  stageInstanceId: ID!
+}
+
+input UpdateOpportunityStatusInput {
+  opportunityId: ID!
+  dateClosed: DateTime = null
+  projectedOutcome: ID = null
+  actualOutcome: ID = null
+  actualOutcomeReason: ID = null
+  projectedRevenue: Int = null
+  actualRevenue: Int = null
+  associatedMatter: String = null
+}
+
+input UpdateOpportunitySummaryInput {
+  opportunityId: ID!
+  opportunityTypeId: ID!
+  targetCompanyId: ID!
+  title: String!
+  description: String = null
+  associatedInitiativeId: ID = null
+}
+
+type UpdateOutlookContactSyncSettingResult {
+  success: Boolean
+  userContactDefaults: UserContactDefaults
+}
+
+input UpdatePersonalAddressInput {
+  addressId: String = null
+  street: String!
+  city: String!
+  administrativeDivision: String = null
+  country: String = null
+  postalCode: String = null
+  usage: UsageTypes = null
+  isConfidential: Boolean = null
+  isMailingAddress: Boolean = null
+}
+
+input UpdatePersonalContactCategoryInput {
+  id: ID!
+  categoryName: String!
+}
+
+type UpdatePersonalContactCategoryResult {
+  personalContactCategory: PersonalContactCategory
+  success: Boolean
+}
+
+input UpdatePersonalContactForTicketsInput {
+  contactId: ID!
+  canAutoUpdate: Boolean = null
+  acceptedTickets: [PersonalContactFieldType]!
+  removeConfidentialIndicators: [PersonalContactFieldType]!
+}
+
+type UpdatePersonalContactForTicketsResult {
+  contact: Contact!
+  dcmTickets: [Int!]!
+  status: ResultCode
+}
+
+input UpdatePersonalContactsForCategoriesInput {
+  categoryIds: [ID!]!
+  contactIds: [ID!]!
+}
+
+type UpdatePersonalContactsForCategoriesResult {
+  isSuccessful: Boolean
+}
+
+input UpdatePersonalContactsForSettingsInput {
+  applyAutoUpdateDefaultSettings: Boolean!
+  applyConfidentialFieldsDefaultSettings: Boolean!
+}
+
+type UpdatePersonalContactsForSettingsResult {
+  applyAutoUpdateDefaultSettingsSuccessful: Boolean
+  applyConfidentialFieldsDefaultSettingsSuccessful: Boolean
+}
+
+input UpdatePersonalContactsToAddCategoriesInput {
+  categoryIds: [ID!]!
+  contactIds: [ID!]!
+}
+
+type UpdatePersonalContactsToAddCategoriesResult {
+  isSuccessful: Boolean
+}
+
+input UpdatePersonalContactsToRemoveCategoryInput {
+  categoryId: ID!
+  contactIds: [ID!]!
+}
+
+type UpdatePersonalContactsToRemoveCategoryResult {
+  isSuccessful: Boolean
+}
+
+input UpdatePersonalElectronicAddressInput {
+  electronicAddress: String = null
+  label: String = null
+  type: EmailAddressTypes = null
+  usage: UsageTypes = null
+  isConfidential: Boolean = null
+}
+
+input UpdatePersonalLocationInput {
+  contactId: ID!
+  phones: [UpdatePersonalPhoneInput] = null
+  electronicAddresses: [UpdatePersonalElectronicAddressInput] = null
+  address: UpdatePersonalAddressInput = null
+  contactType: ContactTypes = null
+  addressBlockType: UsageTypes!
+}
+
+input UpdatePersonalPhoneInput {
+  number: String = null
+  type: PhoneNumberTypes = null
+  usage: UsageTypes = null
+  label: String = null
+  isConfidential: Boolean = null
+}
+
+input UpdatePersonInput {
+  firstName: String = null
+  lastName: String = null
+  middleName: String = null
+  businessEmailAddress: String = null
+  jobTitle: String = null
+  goesBy: String = null
+  assistantName: String = null
+  canAutoUpdate: Boolean = null
+}
+
+input UpdatePublicCompanyInput {
+  companyId: ID!
+  companyName: String!
+  alias: String = null
+  folderContactTypes: [ID] = null
+  businessAddress: AddressInput = null
+  primaryPhone: PhoneInput = null
+  secondaryPhone: PhoneInput = null
+  mobilePhone: PhoneInput = null
+  faxNumber: PhoneInput = null
+  pagerNumber: PhoneInput = null
+  businessEmail: ElectronicAddressInput = null
+  website: ElectronicAddressInput = null
+  canAutoUpdate: Boolean = null
+}
+
+input UpdatePublicLocationInput {
+  contactId: ID!
+  phones: [PublicPhoneInput] = null
+  electronicAddresses: [PublicElectronicAddressInput] = null
+  address: AddressInput = null
+  contactType: ContactTypes!
+  addressBlockType: UsageTypes!
+  isPrimary: Boolean = null
+}
+
+input UpdatePublicPersonInput {
+  id: ID!
+  firstName: String = null
+  lastName: String = null
+  title: String = null
+  suffix: String = null
+  middleName: String = null
+  goesBy: String = null
+  primaryPhone: PhoneInput = null
+  companyPhone: PhoneInput = null
+  faxNumber: PhoneInput = null
+  mobilePhone: PhoneInput = null
+  pagerNumber: PhoneInput = null
+  email: ElectronicAddressInput = null
+  website: ElectronicAddressInput = null
+  assistantName: String = null
+  assistantPhone: PhoneInput = null
+  companyName: String = null
+  companyId: ID = null
+  jobTitle: String = null
+  address: AddressInput = null
+  folderContactTypes: [ID] = null
+  contactAdditionalFields: [AdditionalField] = null
+  canAutoUpdate: Boolean = null
+}
+
+input UpdateRegionalSettingsInput {
+  languageId: ID!
+  countryId: ID!
+}
+
+input UpdateSharedOrPersonalCompanyInput {
+  companyId: ID!
+  companyName: String!
+  alias: String = null
+  folderContactTypes: [ID] = null
+  businessAddress: AddressInput = null
+  primaryPhone: PhoneInput = null
+  secondaryPhone: PhoneInput = null
+  mobilePhone: PhoneInput = null
+  faxNumber: PhoneInput = null
+  pagerNumber: PhoneInput = null
+  businessEmail: ElectronicAddressInput = null
+  website: ElectronicAddressInput = null
+  isHiddenFromMyProxy: Boolean = null
+  isUnknownContact: Boolean = null
+  confidentialFields: CompanyConfidentialFieldsInput = null
+  canAutoUpdate: Boolean = null
+}
+
+input UpdateSharedOrPersonalPersonInput {
+  id: ID!
+  firstName: String = null
+  lastName: String = null
+  title: String = null
+  suffix: String = null
+  middleName: String = null
+  goesBy: String = null
+  primaryPhone: PhoneInput = null
+  companyPhone: PhoneInput = null
+  faxNumber: PhoneInput = null
+  mobilePhone: PhoneInput = null
+  pagerNumber: PhoneInput = null
+  email: ElectronicAddressInput = null
+  website: ElectronicAddressInput = null
+  assistantName: String = null
+  assistantPhone: PhoneInput = null
+  companyName: String = null
+  companyId: ID = null
+  jobTitle: String = null
+  address: AddressInput = null
+  confidentialFields: PersonConfidentialFieldsInput!
+  canAutoUpdate: Boolean = null
+  isHiddenFromMyProxy: Boolean = null
+  isUnknownContact: Boolean = null
+}
+
+input UpdateUserContactDefaultsInput {
+  autoUpdateInd: Boolean!
+  isPrivateGoesBy: Boolean!
+  isPrivateBusinessWebSite: Boolean!
+  isPrivateBusinessFax: Boolean!
+  isPrivateDepartment: Boolean!
+  isPrivateBusinessAddress: Boolean!
+  isPrivateAssistantPhone: Boolean!
+  isPrivateAssistantName: Boolean!
+  isPrivateBusinessPhone: Boolean!
+  isPrivateMobilePhone: Boolean!
+  isPrivateBusinessElectronicAddress: Boolean!
+  isPrivateBusiness2Phone: Boolean!
+  isPrivatePager: Boolean!
+  isPrivateHomeAddress: Boolean!
+  isPrivateHomePhone: Boolean!
+  isPrivateHomeFax: Boolean!
+  isPrivateHomeElectronicAddress: Boolean!
+  addKnowsRelationshipByDefault: Boolean = null
+}
+
+type UpdateUserContactDefaultsResult {
+  userContactDefaults: UserContactDefaults
+}
+
+input UpdateUserContactReviewSettingsInput {
+  acceptIfBlank: Boolean!
+  acceptIfReformatted: Boolean!
+  reviewUpdates: Boolean!
+  setSlowSyncForPersonalContacts: Boolean = false
+}
+
+type UpdateUserContactReviewSettingsResult {
+  userContactDefaults: UserContactDefaults
+}
+
+input UpdateUserDashboardSettingsInput {
+  dashboardSettings: [PanelSettingsInput!]!
+}
+
+input UpdateUserTableSettingsInput {
+  tableSettings: [ColumnSettingsInput!]!
+}
+
+enum UsageTypes {
+  AlternateBusiness
+  AlternateHome
+  Business
+  Home
+  Business2
+  Other
+}
+
+type User {
+  accountId: String
+  accountName: String
+  alerts(skip: Int = 0, limit: Int = 100, startDateRange: Date = null, endDateRange: Date = null): AlertResults
+  appServerUrl: String
+  canAccessReminders: Boolean
+  canAccessRemindersForOthers: Boolean
+  contactId: String
+  features: [FeatureFlag]
+  groups: [UserGroup]
+  hasConsented(client: String!): Boolean
+  isActive: Boolean
+  myProxyUsers: [ProxyUser]
+  person: Person
+  proxyForUsers: [ProxyUser]
+  settings: UserSettings
+  trackingInfo(environment: String!): TrackingInfo
+  userContactCounts: UserContactCounts
+  userContactDefaults: UserContactDefaults
+  userContactIdsWithFirmUpdate: [ID]
+  userId: String
+  userName: String
+}
+
+type UserContactCounts {
+  personalContacts: Int
+  privateContacts: Int
+  sharedContacts: Int
+  totalContacts: Int
+  unresolvedContacts: Int
+}
+
+type UserContactDefaults {
+  acceptIfBlank: Boolean
+  acceptIfReformatted: Boolean
+  addKnowsRelationshipByDefault: Boolean
+  allowUpdatingAddKnowsRelationshipByDefault: Boolean
+  autoUpdateInd: Boolean
+  isPrivateAssistantName: Boolean
+  isPrivateAssistantPhone: Boolean
+  isPrivateBusiness2Phone: Boolean
+  isPrivateBusinessAddress: Boolean
+  isPrivateBusinessElectronicAddress: Boolean
+  isPrivateBusinessFax: Boolean
+  isPrivateBusinessPhone: Boolean
+  isPrivateBusinessWebSite: Boolean
+  isPrivateDepartment: Boolean
+  isPrivateGoesBy: Boolean
+  isPrivateHomeAddress: Boolean
+  isPrivateHomeElectronicAddress: Boolean
+  isPrivateHomeFax: Boolean
+  isPrivateHomePhone: Boolean
+  isPrivateMobilePhone: Boolean
+  isPrivatePager: Boolean
+  outlookContactSync: OutlookContactSyncSetting
+  reviewUpdates: Boolean
+}
+
+type UserGroup {
+  id: ID
+  name: String
+}
+
+type UserGroupResults {
+  models: [UserGroup]
+  totalModels: Int!
+}
+
+input UserSettingInput {
+  contactViewInput: ContactView = null
+  booleanInput: Boolean = null
+  stringInput: String = null
+  integerInput: Int = null
+  idsInput: [ID] = null
+}
+
+type UserSettings {
+  alertPanelSettings: AlertPanelSettings
+  dashboardSettings(key: String!): DashboardSettings
+  enableNews: Boolean
+  id: ID
+  newsDaysRange: Int
+  outlookPreferredActivityTypeIds: [ID]
+  personalContactCategories: PersonalContactCategoriesResult
+  preferredContactView: ContactView
+  reminderPreferences: ReminderPreferences
+  tableSettings(key: String!): TableSettings
+  watchListPreferences: WatchListPreferences
+}
+
+type ValidationErrors {
+  message: String!
+  propertyName: String
+}
+
+enum Visibility {
+  Group
+  Everyone
+  OnlyMe
+}
+
+type WatchListPreferences {
+  activityGroups: [SettingsActivityGroup]
+  contactTypes: [SettingsContactType]
+  defaultDaysAhead: Int
+  defaultDaysBack: Int
+  watchContactsIKnow: Boolean
+  watchMyContacts: Boolean
+}

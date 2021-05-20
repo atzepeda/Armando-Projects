@@ -1,0 +1,4 @@
+/node_modules
+.vscode/
+server/node_modules/
+cron-email/node_modules
