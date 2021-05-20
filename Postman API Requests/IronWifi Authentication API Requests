@@ -12,7 +12,7 @@
 				"header": [
 					{
 						"key": "authorization",
-						"value": "Bearer 3f2200c84688f85b42b6ecff552d85e6b06740e9",
+						"value": "Bearer ****************",
 						"type": "text"
 					}
 				],
@@ -56,7 +56,7 @@
 				"header": [
 					{
 						"key": "authorization",
-						"value": "Bearer 7e3f150f39224280c4a6aa02e7ce0b87902e0e77",
+						"value": "Bearer ****************",
 						"type": "text"
 					},
 					{
