@@ -15,7 +15,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic Yzk0YzY4MWRiZDRiOWM3N2YyMjBmM2E4NjIyMTAxZTk6ZjkzNDUwZjFkZWJhNTg3ZjdkYzQzOWQ4OTcxNGQzY2U=",
+						"value": "Basic ****************",
 						"type": "text"
 					}
 				],
@@ -24,12 +24,12 @@
 					"formdata": [
 						{
 							"key": "username",
-							"value": "armando@officeours.com",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "sasuke23",
+							"value": "****************",
 							"type": "text"
 						},
 						{
