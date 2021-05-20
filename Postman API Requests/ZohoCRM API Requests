@@ -20,17 +20,17 @@
 						},
 						{
 							"key": "client_id",
-							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "client_secret",
-							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "code",
-							"value": "1000.960958a989e21f076f2b5fb03ab5cce9.93af56327baa4f654521944c75d3600d"
+							"value": "****************"
 						}
 					]
 				},
@@ -66,17 +66,17 @@
 						},
 						{
 							"key": "client_id",
-							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "client_secret",
-							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "code",
-							"value": "1000.960958a989e21f076f2b5fb03ab5cce9.93af56327baa4f654521944c75d3600d"
+							"value": "****************"
 						}
 					]
 				},
@@ -96,15 +96,15 @@
 					"query": [
 						{
 							"key": "refresh_token",
-							"value": "1000.267e767ed83a68306edb63563091bfe6.51325a4b90b3b176891499b716f8b64f"
+							"value": "****************"
 						},
 						{
 							"key": "client_id",
-							"value": "1000.2JKHWFNCV2AMBT4ZGKVPCNNYXQCAKW"
+							"value": "****************"
 						},
 						{
 							"key": "client_secret",
-							"value": "0cc5764671d1b9437e295cf0d3a24138e35f7c1012"
+							"value": "****************"
 						},
 						{
 							"key": "grant_type",
