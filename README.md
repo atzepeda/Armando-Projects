@@ -1,9 +1,7 @@
 # Armando-Projects
 
 
-**Name:** Postman API Requests
-
-**Project Type:** Work
+**Name:** Postman API Requests\n**Project Type:** Work
 **Description:** These are API requests I made in Postman for work. These requests were made to test the API endpoints of various softwares and help give me an idea of how to code the requests using javascript in Zapier
 **Components:** JSON, Javascript, NodeJS
 
