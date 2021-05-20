@@ -27,12 +27,12 @@
 						},
 						{
 							"key": "username",
-							"value": "armando@officeours.com",
+							"value": "****************",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "Z97n9mQGuX0z",
+							"value": "****************",
 							"type": "text"
 						}
 					]
@@ -57,12 +57,12 @@
 						},
 						{
 							"key": "username",
-							"value": "armando@officeours.com",
+							"value": "****************",
 							"disabled": true
 						},
 						{
 							"key": "password",
-							"value": "CGy5.ETyR_Kt",
+							"value": "****************",
 							"disabled": true
 						}
 					]
