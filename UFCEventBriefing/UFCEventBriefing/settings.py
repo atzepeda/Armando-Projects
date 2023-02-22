@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+
+sys.path.append(os.path.abspath('/path/to/your/scrapy/project'))
+
 
 # Scrapy settings for ufcEventBriefing project
 #
@@ -9,10 +14,10 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'ufcEventBriefing'
+BOT_NAME = 'UFCEventBriefing'
 
-SPIDER_MODULES = ['ufcEventBriefing.spiders']
-NEWSPIDER_MODULE = 'ufcEventBriefing.spiders'
+SPIDER_MODULES = ['UFCEventBriefing.spiders']
+NEWSPIDER_MODULE = 'UFCEventBriefing.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
