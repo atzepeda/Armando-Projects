@@ -69,8 +69,8 @@ class EventSpider(scrapy.Spider):
         else:
             dateObj = datetime.datetime.strptime(cardDate, '%a, %b %d, %I:%M %p')
             #IF: 
-            if(datetime.datetime.now() - dateObj).total_seconds() > 0:
-                print((datetime.datetime.now() - dateObj).total_seconds())
+            if(dateObj - datetime.datetime.now()).total_seconds() > 0:
+                print((dateObj - datetime.datetime.now()).total_seconds())
                 self.nextCard = response.xpath("//a[@aria-selected='true']/div/span/div/span/span/text()").get()
                 #self.nextCard = response.xpath("//a[@tabindex='0']/following-sibling::a[1]/div/span/div/span/span/text()").get()
                 print("OPTION A")
@@ -79,8 +79,8 @@ class EventSpider(scrapy.Spider):
 
             else:
                 print((datetime.datetime.now() - dateObj).total_seconds())
-                #self.nextCard = response.xpath("//a[@tabindex='0']/following-sibling::a[1]/div/span/div/span/span/text()").get()
-                self.nextCard = response.xpath("//a[@aria-selected='true']/div/span/div/span/span/text()").get()
+                self.nextCard = response.xpath("//a[@tabindex='0']/following-sibling::a[1]/div/span/div/span/span/text()").get()
+                #self.nextCard = response.xpath("//a[@aria-selected='true']/div/span/div/span/span/text()").get()
                 print("OPTION B")
                 print(self.nextCard)
                 globals.q.put(self.nextCard)
@@ -94,6 +94,8 @@ class fighterSpider(scrapy.Spider):
 
     user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
 
+    #input_box = assert(splash:select(".search.autocomplete"))
+    #btn = assert(splash:select(".fight_finder > div > div > form > input:nth-child(2)"))
     fighterScript = '''
     function main(splash, args)
         splash.private_mode_enabled = false
@@ -106,7 +108,6 @@ class fighterSpider(scrapy.Spider):
         assert(splash:wait(1))
         
         btn = assert(splash:select('form.right-search input[type="submit"]'))
-
         btn:mouse_click()
         assert(splash:wait(1))
         
@@ -135,7 +136,8 @@ class fighterSpider(scrapy.Spider):
         })
 
     def getEventPage(self, response):
-        event = response.xpath('//div[@class="module search"]/div[2]/table/tbody/tr[2]/td[2]/a/@href').get()
+        #event = response.xpath("//div[@class='content table']/table/tbody/tr[2]/td[2]/a/@href").get()
+        event = response.xpath('//table[@class="new_table fightfinder_result"]//tr)[2]/td[2]/a').get()
         total_url = self.BASE_URL + event
         print(total_url)
         yield SplashRequest(response.urljoin(event), callback=self.parse, headers={
@@ -236,7 +238,7 @@ class statsSpider(scrapy.Spider):
             return self.retrieve_fighter_page(response, fighterTwoFirstName[name])
 
         print("*************WE ARE GETTING STARTED HERE***************")
-        list_of_fights = globals.q.get()
+        list_of_fights = globals.q.get(timeout=1)
         fighterOneCount = len(list_of_fights)
         fighterTwoCount = len(list_of_fights)
         print(list_of_fights)
