@@ -56,9 +56,16 @@ class EventSpider(scrapy.Spider):
         cardDate = response.xpath("//div[@class='tsp-w tsp-fds']//span[@class='tsp-w tsp-db tsp-cp tsp-fl tsp-o64']/text()").get()
         print(cardDate)
         newDate = cardDate.split(",")
+        print(newDate)
 
-        if (newDate[0]=="today" or newDate[0]=="yesterday"):
-            self.nextCard = response.xpath("//a[@tabindex='0']/following-sibling::a[1]/div/span/div/span/span/text()").get()
+        if (newDate[0]=="tomorrow" or newDate[0]=="today" or newDate[0]=="yesterday"):
+            print("!!!!!!!!!IT IDENTIFIES")
+            # self.nextCard = response.xpath("//a[@tabindex='0']/following-sibling::a[1]/div/span/div/span/span/text()").get()
+            #self.nextCard = response.xpath("//a[@aria-selected,'true']/div/div/span/span/text()").get()
+            self.nextCard = response.xpath("//a[@aria-selected='true']/div/span/div/span/span/text()").get()
+            print("OPTION C")
+            print(self.nextCard)
+            globals.q.put(self.nextCard)
         else:
             dateObj = datetime.datetime.strptime(cardDate, '%a, %b %d, %I:%M %p')
             #IF: 
@@ -93,12 +100,13 @@ class fighterSpider(scrapy.Spider):
         assert(splash:go(args.url))
             assert(splash:wait(1))
         
-        input_box = assert(splash:select(".search.autocomplete"))
+        input_box = assert(splash:select('form.right-search input[name="SearchTxt"]'))
         input_box:focus()
-        input_box:send_text(splash.args.event)
+        input_box:send_text("UFC 285")
         assert(splash:wait(1))
         
-        btn = assert(splash:select(".fight_finder > div > div > form > input:nth-child(2)"))
+        btn = assert(splash:select('form.right-search input[type="submit"]'))
+
         btn:mouse_click()
         assert(splash:wait(1))
         
@@ -127,7 +135,7 @@ class fighterSpider(scrapy.Spider):
         })
 
     def getEventPage(self, response):
-        event = response.xpath("//div[@class='content table']/table/tbody/tr[2]/td[2]/a/@href").get()
+        event = response.xpath('//div[@class="module search"]/div[2]/table/tbody/tr[2]/td[2]/a/@href').get()
         total_url = self.BASE_URL + event
         print(total_url)
         yield SplashRequest(response.urljoin(event), callback=self.parse, headers={
@@ -138,10 +146,10 @@ class fighterSpider(scrapy.Spider):
     def parse(self, response):
         print("ALMOST HAVE IT COMPLETELY RECOMPILED")
         fight_list = []
-        fighters = response.xpath("//div[@class='content table']/table/tbody/tr[@class='table_head']/following-sibling::node()[@class='even' or @class='odd']")
+        fighters = response.xpath("//div[@class='new_table_holder']/table/tbody/tr[@class='table_head']/following-sibling::tr")
         for fighter in fighters:
-            fighterOne = fighter.xpath(".//td[2]/a[starts-with(@href, '/fighter/')]/span/text()").get()
-            fighterTwo = fighter.xpath(".//td[4]/a[starts-with(@href, '/fighter/')]/span/text()").get()
+            fighterOne = fighter.xpath(".//td[2]/div/div/a[starts-with(@href, '/fighter/')]/span/text()[1]").get() + " " + fighter.xpath(".//td[2]/div/div/a[starts-with(@href, '/fighter/')]/span/text()[2]").get()
+            fighterTwo = fighter.xpath(".//td[4]/div/div/a[starts-with(@href, '/fighter/')]/span/text()[1]").get() + " " + fighter.xpath(".//td[4]/div/div/a[starts-with(@href, '/fighter/')]/span/text()[2]").get()
             fight = {
                 'fighterOne': fighterOne,
                 'fighterTwo': fighterTwo
