@@ -137,7 +137,7 @@ class fighterSpider(scrapy.Spider):
 
     def getEventPage(self, response):
         #event = response.xpath("//div[@class='content table']/table/tbody/tr[2]/td[2]/a/@href").get()
-        event = response.xpath('//table[@class="new_table fightfinder_result"]//tr)[2]/td[2]/a').get()
+        event = response.xpath('//table[@class="new_table fightfinder_result"]//tr[2]/td[2]/a').get()
         total_url = self.BASE_URL + event
         print(total_url)
         yield SplashRequest(response.urljoin(event), callback=self.parse, headers={
