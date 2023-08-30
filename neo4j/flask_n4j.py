@@ -14,13 +14,14 @@ def get_all_characters():
     characters = [character[0] for character in query_result]
     return make_response(jsonify(characters), 200)
 
-@app.route("/v1/characters/<id>", methods=["GET"])
-def get_character_by_id(id):
+@app.route("/v1/movies/<id>", methods=["GET"])
+def get_movie_by_id(id):
+    print("here is the id: ",id)
     query_run = graph.run(
-        "MATCH (n:Character) WHERE id(n)= $got_id RETURN n", got_id=int(id))
-    character = query_run.evaluate()
-    character['id'] = id
-    return make_response(jsonify(character))
+        "MATCH (m:Movie) WHERE ID(m) = $position_id RETURN m", position_id=int(id))
+    movie = query_run.evaluate()
+    movie['id'] = id
+    return make_response(jsonify(movie))
 
 @app.route("/v1/characters/<name>/betrayed_by", methods=["GET"])
 def get_betrayls(name: str):
