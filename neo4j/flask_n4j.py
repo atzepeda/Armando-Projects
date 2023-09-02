@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, make_response
 from py2neo import Graph
+from flask_cors import CORS
 
 import logging
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
+CORS(app)
 graph = Graph("bolt://localhost:7687", auth=("neo4j", "asdf1234"))
 
 @app.route('/v1/characters', methods=["GET"])

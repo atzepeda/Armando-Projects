@@ -1,0 +1,8 @@
+edu.ncsu.csc.coffee_maker
+edu.ncsu.csc.coffee_maker.controllers
+edu.ncsu.csc.coffee_maker.models.persistent
+edu.ncsu.csc.coffee_maker.util
+edu.ncsu.csc.cucumber
+edu.ncsu.csc.selenium
+edu.ncsu.csc.testUtils.web
+edu.ncsu.csc.test_utils

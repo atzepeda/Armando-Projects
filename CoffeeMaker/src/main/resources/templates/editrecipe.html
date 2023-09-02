@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Edit Recipes</title>
+<style>
+.username.ng-valid {
+	background-color: lightgreen;
+}
+
+.username.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+
+.username.ng-dirty.ng-invalid-min {
+	background-color: yellow;
+}
+
+.email.ng-valid {
+	background-color: lightgreen;
+}
+
+.email.ng-dirty.ng-invalid-required {
+	background-color: red;
+}
+</style>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<link rel="stylesheet" href="css/app.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+	<h1>Edit Coffee Recipes</h1>
+	<div layout:fragment="content">
+
+		<script> 
+    /*<![CDATA[*/
+		var app = angular.module('myApp', []);
+		app.controller('EditRecipesController', function($scope, $http, $q) {
+			
+			var self = this;
+			self.newRecipe={name:'', price:'', coffee:'', milk:'', sugar:'', chocolate:''};
+			
+			self.submit = submit;
+			self.reset = reset;
+			
+			
+			function updateRecipes() {
+				$http.get("/api/v1/recipes").then(function (response) {
+	  				$scope.recipes = response.data;
+	  			});
+			}
+			
+			updateRecipes();
+			
+			function editRecipe(r) {
+				var deferred = $q.defer();
+				
+				$scope.success = false;
+				$scope.failure = false;
+				
+		        $http.put("/api/v1/recipes/" + r.name, r)
+		            .then(
+		            function (response) {
+		            	console.log(response);
+		    				
+		    			$scope.success = true;
+						$scope.failure = false;
+		                deferred.resolve(response.data);
+		                
+		             	updateRecipes();
+			        	reset();
+		            },
+		            function(rejection){
+		                console.error('Error while editing recipe');
+		                console.log(rejection);
+		                
+						$scope.success = false;
+						$scope.failure = true;
+		                deferred.reject(rejection);
+		                
+		             	// Update recipe list
+				        $http.get("/api/v1/recipes").then(function (response) {
+			  				$scope.recipes = response.data;
+			  			});
+		            }
+		        );
+		        
+		        $scope.success = !($scope.failure);
+		        
+			}
+			
+			function submit() {
+	    		editRecipe(self.newRecipe);
+	    	}
+	 
+	 
+	    	function reset() {
+	    		self.newRecipe={name:'', price:'', coffee:'', milk:'', sugar:'', chocolate:''};
+	        	$scope.editRecipeForm.$setPristine(); //reset Form
+	    	}
+	    	
+	    	$scope.pick = function(value) {
+	    		
+	    		reset();
+	    		self.newRecipe={name:value.name, price:value.price, coffee:value.coffee, milk:value.milk, sugar:value.sugar, chocolate:value.chocolate};
+	    		
+	    	}
+			
+		});
+			
+
+	/*]]>*/
+	</script>
+
+		<div ng-app="myApp" ng-controller="EditRecipesController as ctrl">
+			<ul>
+				<li ng-repeat="recipe in recipes"><label>{{recipe.name}}
+						<input type="radio" ng-model="$parent.name" name="buttonname"
+						value="{{recipe.name}}" required="true" ng-change="pick(recipe)"/>
+				</label></li>
+			</ul>
+			
+			<div ng-if="0 >= recipes.length">There are no recipes in the
+				Coffee Maker.</div>
+			
+				<div class="generic-container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="lead">Edit a Recipe</span>
+			</div>
+
+			<div class="formcontainer">
+				<form ng-submit="ctrl.submit()" name="editRecipeForm"
+					class="form-horizontal">
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Name</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.name" ng-disabled="true" name="name"
+									class="name form-control input-sm"
+									placeholder="Enter recipe name" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.name.$error.required">This
+										is a required field</span> <span ng-show="editRecipeForm.name.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Price</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.price" name="price"
+									class="price form-control input-sm"
+									placeholder="Enter recipe price" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.price.$error.required">This
+										is a required field</span> <span
+										ng-show="editRecipeForm.price.$error.min">Minimum amount
+										is 0</span> <span ng-show="editRecipeForm.price.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Coffee</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.coffee" name="coffee"
+									class="coffee form-control input-sm"
+									placeholder="Enter amount of coffee" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.coffee.$error.required">This
+										is a required field</span> <span
+										ng-show="editRecipeForm.coffee.$error.min">Minimum
+										amount is 0</span> <span ng-show="editRecipeForm.coffee.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Milk</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.milk" name="milk"
+									class="milk form-control input-sm"
+									placeholder="Enter amount of milk" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.milk.$error.required">This
+										is a required field</span> <span
+										ng-show="editRecipeForm.milk.$error.min">Minimum amount
+										is 0</span> <span ng-show="editRecipeForm.milk.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Sugar</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.sugar" name="sugar"
+									class="sugar form-control input-sm"
+									placeholder="Enter amount of sugar" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.sugar.$error.required">This
+										is a required field</span> <span
+										ng-show="editRecipeForm.sugar.$error.min">Minimum amount
+										is 0</span> <span ng-show="editRecipeForm.sugar.$invalid">This
+										field is invalid </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label class="col-md-2 control-lable" for="file">Chocolate</label>
+							<div class="col-md-7">
+								<input type="text" ng-model="ctrl.newRecipe.chocolate"
+									name="chocolate" class="chocolate form-control input-sm"
+									placeholder="Enter amount of chocolate" required="0" />
+								<div class="has-error" ng-show="editRecipeForm.$dirty">
+									<span ng-show="editRecipeForm.chocolate.$error.required">This
+										is a required field.</span> <span
+										ng-show="editRecipeForm.chocolate.$error.min">Minimum
+										amount is 0.</span> <span ng-show="editRecipeForm.chocolate.$invalid">This
+										field is invalid. </span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-actions floatRight">
+							<input type="submit" value="Submit"
+								class="btn btn-primary btn-sm"
+								ng-disabled="editRecipeForm.$invalid" />
+							<button type="button" ng-click="ctrl.reset()"
+								class="btn btn-warning btn-sm"
+								ng-disabled="editRecipeForm.$pristine">Reset Form</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div ng-if="success">Recipe successfully edited</div>
+			<div ng-if="failure">Error while editing recipe.</div>
+		</div>
+		<a href="/index">Home</a>
+	</div>
+
+
+		</div>
+	</div>
+
+
+
+</body>
+</html>
