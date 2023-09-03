@@ -13,7 +13,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "proxyConfig": "proxy.conf.json",
             "outputPath": "dist/grappling-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -59,6 +58,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "grappling-UI:build:production"
