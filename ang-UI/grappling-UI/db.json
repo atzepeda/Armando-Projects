@@ -1,0 +1,10 @@
+{
+      "data": {
+          "id": 1,
+          "title": "The Dark Knight",
+          "released": 2008,
+          "runtime": 152,
+          "genres": ["Action", "Crime", "Drama"],
+          "director": "Christopher Nolan"
+        }
+  }

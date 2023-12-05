@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     this.apiService.fetchData().subscribe((result) => {
       this.data = result;
       console.log(this.data)
+      console.log(this.data.id)
     });
   }
 }
