@@ -1,27 +1,56 @@
-# GrapplingUI
+# Project Overview
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
+This document provides an overview of the project, including documentation for key files and instructions for setting up and running the project with a mock API/database.
 
-## Development server
+## File Documentation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### App Component Template (`app.component.html`)
 
-## Code scaffolding
+- **Purpose**: Serves as the template for the main component of the application.
+- **Structure**:
+  - Heading displaying "API Data".
+  - Paragraph displaying the title of the data object, if it exists.
+  - Button triggering the `onButtonClick()` method in the TypeScript file.
+  - Div showing detailed information about the data object (title, release date, ID).
+- **Features**:
+  - Angular interpolation for displaying values.
+  - Event binding for button clicks.
+  - `*ngIf` directive for conditional rendering.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### App Component (`app.component.ts`)
 
-## Build
+- **Purpose**: Main component of the application.
+- **Imports**: Modules like `Component`, `OnInit`, `HttpClient`, and `ApiService`.
+- **Component Metadata**:
+  - `selector: 'app-root'`
+  - `templateUrl: './app.component.html'`
+  - `styleUrls: ['./app.component.css']`
+- **Class Definition**: Implements `OnInit` with properties like `data` and `title`.
+- **Constructor**: Defines `apiService` for dependency injection.
+- **Methods**:
+  - `ngOnInit()`: Lifecycle hook for initialization.
+  - `onButtonClick()`: Fetches data from the API and updates `data`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Setup and Running Instructions
 
-## Running unit tests
+### Prerequisites
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Node.js and npm installed on your system.
 
-## Running end-to-end tests
+### Project Setup
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. **Navigate to the Project Directory**
+   ```bash
+   cd <project-directory>
 
-## Further help
+2. Install Project Dependencies: **npm install**
+3. Install json-server Globally: **npm install -g json-server**
+4. **Running the Mock API/DB**
+5. Start the Mock API/DB Server: **json-server --host 127.0.0.1 --watch db.json --routes routes.json --port 5001**
+6. **Starting the Application**
+7. Run the Application: **npm start**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Additional Notes
+- Ensure db.json contains the mock data you intend to use with the API.
+- Replace <project-directory> with the actual path to your project directory.
+
