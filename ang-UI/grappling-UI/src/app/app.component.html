@@ -6,23 +6,8 @@
   {{ data?.title }}
 </p>
 
-<!-- Q: What does this button do? -->
-<!-- A: It calls the onButtonClick() method when clicked. -->
-<!-- Q: What does that function do? -->
-<!-- A: It calls the getDataFromService() method. -->
-<!-- Q: What does that function do? -->
-<!-- A: It calls the getData() method from the DataService. -->
-<!-- Q: What does that function do? -->
-<!-- A: It makes a GET request to the API and returns the response. -->
-<!-- Q: How can I mock the data returned if I can't host the API myself? -->
-<!-- A: You can use a tool like Postman to mock the response. -->
-<!-- Button -->
 <button (click)="onButtonClick()">Fetch Data</button>
 
-<!-- Q: What is displayed in the sections below? -->
-<!-- A: The data returned from the API. -->
-<!-- Q: With data now being an array, does the information contained need to be accessed differently in order to be displayed in this html? -->
-<!-- A: Yes, the data needs to be accessed by index. -->
 <div *ngIf="data">
   <h3>Sections:</h3>
   <div>
